@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -38,7 +38,7 @@ namespace BeatSaverSharp
         /// Beats per Minute
         /// </summary>
         [JsonProperty("bpm")]
-        public int BPM { get; set; }
+        public float BPM { get; set; }
 
         /// <summary>
         /// </summary>
@@ -105,41 +105,41 @@ namespace BeatSaverSharp
         /// Length of the beatmap (in beats)
         /// </summary>
         [JsonProperty("duration")]
-        public float Duration { get; set; }
+        public float? Duration { get; set; }
 
         /// <summary>
         /// Length of the beatmap (in seconds)
         /// </summary>
         [JsonProperty("length")]
-        public int Length { get; set; }
+        public int? Length { get; set; }
 
         /// <summary>
         /// Bomb Count
         /// </summary>
         [JsonProperty("bombs")]
-        public int Bombs { get; set; }
+        public int? Bombs { get; set; }
 
         /// <summary>
         /// Note Count
         /// </summary>
         [JsonProperty("notes")]
-        public int Notes { get; set; }
+        public int? Notes { get; set; }
 
         /// <summary>
         /// Obstacle Count
         /// </summary>
         [JsonProperty("obstacles")]
-        public int Obstacles { get; set; }
+        public int? Obstacles { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("njs")]
-        public float NoteJumpSpeed { get; set; }
+        public float? NoteJumpSpeed { get; set; }
 
         /// <summary>
         /// </summary>
         [JsonProperty("njsOffset")]
-        public float NoteJumpSpeedOffset { get; set; }
+        public float? NoteJumpSpeedOffset { get; set; }
     }
 
     /// <summary>
