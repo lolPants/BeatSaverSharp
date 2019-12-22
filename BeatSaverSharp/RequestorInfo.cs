@@ -11,7 +11,10 @@ namespace BeatSaverSharp
     /// </summary>
     public class RequestorInfo
     {
-        internal string UserAgent { get; set; }
+        /// <summary>
+        /// The HTTP User-Agent used when sending web requests.
+        /// </summary>
+        public string UserAgent { get; private set; }
         internal RequestorInfo(string requestorName, string requestorVersion)
         {
             UserAgent = string.Format(Http.BaseUserAgent, requestorName, requestorVersion);
