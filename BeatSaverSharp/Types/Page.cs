@@ -64,11 +64,6 @@ namespace BeatSaverSharp
         [JsonIgnore]
         internal string Query { get; set; }
 
-        internal Page(RequestorInfo requestorInfo)
-        {
-            RequestorInfo = requestorInfo;
-        }
-
         /// <summary>
         /// Fetch the previous page in this sequence
         /// </summary>
