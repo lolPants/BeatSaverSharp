@@ -35,7 +35,7 @@ namespace BeatSaverSharp
         }
         internal static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         internal static readonly string BaseUserAgent = "{0}/{1} " + $"(BeatSaver.Net/{Version})";
-        internal static readonly Uri BeatSaverBaseUri = new Uri(BeatSaver.BaseURL);
+        internal static readonly Uri BeatSaverBaseUri = new Uri(BeatSaver.BaseURL + "/api/");
 
         internal static async Task<HttpResponse> GetAsync(string url, RequestorInfo requestorInfo, CancellationToken token, IProgress<double> progress = null)
         {
