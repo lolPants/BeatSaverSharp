@@ -15,7 +15,7 @@ namespace BeatSaverSharp
         /// <summary>
         /// BeatSaver Base URL
         /// </summary>
-        public const string BaseURL = "https://beatsaver.com";
+        public static readonly string BaseURL = "https://beatsaver.com";
 
         private RequestorInfo _requestorInfo;
         /// <summary>
