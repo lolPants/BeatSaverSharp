@@ -34,7 +34,7 @@ namespace BeatSaverSharp
             Client.DefaultRequestHeaders.Add("User-Agent", $"BeatSaver.Net/{version}");
         }
         internal static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        internal static readonly string BaseUserAgent = $"{0}/{1} (BeatSaver.Net/{Version})";
+        internal static readonly string BaseUserAgent = "{0}/{1} " + $"(BeatSaver.Net/{Version})";
         internal static readonly Uri BeatSaverBaseUri = new Uri(BeatSaver.BaseURL);
 
         internal static async Task<HttpResponse> GetAsync(string url, RequestorInfo requestorInfo, CancellationToken token, IProgress<double> progress = null)
