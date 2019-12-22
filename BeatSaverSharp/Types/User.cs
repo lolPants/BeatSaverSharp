@@ -11,6 +11,8 @@ namespace BeatSaverSharp
     public sealed class User
         : Types.IHasRequestor
     {
+
+        [JsonIgnore]
         private RequestorInfo _requestorInfo;
         /// <summary>
         /// Contains info about the application making requests. Cannot be set to null.
@@ -56,11 +58,6 @@ namespace BeatSaverSharp
             p.PageURI = pageURI;
 
             return p;
-        }
-
-        internal User(RequestorInfo requestorInfo)
-        {
-            RequestorInfo = requestorInfo;
         }
     }
 }

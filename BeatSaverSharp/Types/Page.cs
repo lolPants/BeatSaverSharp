@@ -13,6 +13,8 @@ namespace BeatSaverSharp
     public sealed class Page
         : Types.IHasRequestor
     {
+
+        [JsonIgnore]
         private RequestorInfo _requestorInfo;
         /// <summary>
         /// Contains info about the application making requests. Cannot be set to null.

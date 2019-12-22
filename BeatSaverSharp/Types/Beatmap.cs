@@ -15,6 +15,8 @@ namespace BeatSaverSharp
     public sealed class Beatmap
         : Types.IHasRequestor
     {
+
+        [JsonIgnore]
         private RequestorInfo _requestorInfo;
         /// <summary>
         /// Contains info about the application making requests. Cannot be set to null.
@@ -62,10 +64,7 @@ namespace BeatSaverSharp
         ///// <returns></returns>
         //public static async Task<Beatmap> FromHash(string hash, CancellationToken token, IProgress<double> progress = null) => await BeatSaver.Hash(hash, token, progress);
         //#endregion
-        internal Beatmap(RequestorInfo requestorInfo)
-        {
-            RequestorInfo = requestorInfo;
-        }
+
         #region JSON Properties
         /// <summary>
         /// Unique ID
