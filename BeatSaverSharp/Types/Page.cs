@@ -11,7 +11,22 @@ namespace BeatSaverSharp
     /// Page of Results
     /// </summary>
     public sealed class Page
+        : Types.IHasRequestor
     {
+        private RequestorInfo _requestorInfo;
+        /// <summary>
+        /// Contains info about the application making requests. Cannot be set to null.
+        /// </summary>
+        [JsonIgnore]
+        public RequestorInfo RequestorInfo
+        {
+            get { return _requestorInfo; }
+            set
+            {
+                if (value == null) return;
+                _requestorInfo = value;
+            }
+        }
         /// <summary>
         /// Documents on this page
         /// </summary>
@@ -47,6 +62,11 @@ namespace BeatSaverSharp
         [JsonIgnore]
         internal string Query { get; set; }
 
+        internal Page(RequestorInfo requestorInfo)
+        {
+            RequestorInfo = requestorInfo;
+        }
+
         /// <summary>
         /// Fetch the previous page in this sequence
         /// </summary>
@@ -65,7 +85,7 @@ namespace BeatSaverSharp
 
             string url = $"{PageURI}/{PreviousPage}";
             if (Query != null) url += $"?q={HttpUtility.UrlEncode(Query)}";
-            Page p = await BeatSaver.FetchPaged(url, token, progress);
+            Page p = await BeatSaver.FetchPaged(url, RequestorInfo, token, progress);
 
             p.PageURI = PageURI;
             p.Query = Query;
@@ -91,7 +111,7 @@ namespace BeatSaverSharp
 
             string url = $"{PageURI}/{NextPage}";
             if (Query != null) url += $"?q={HttpUtility.UrlEncode(Query)}";
-            Page p = await BeatSaver.FetchPaged(url, token, progress);
+            Page p = await BeatSaver.FetchPaged(url, RequestorInfo, token, progress);
 
             p.PageURI = PageURI;
 

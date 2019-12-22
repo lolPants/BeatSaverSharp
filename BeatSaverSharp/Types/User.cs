@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -9,7 +9,20 @@ namespace BeatSaverSharp
     /// BeatSaver User
     /// </summary>
     public sealed class User
+        : Types.IHasRequestor
     {
+        private RequestorInfo _requestorInfo;
+        /// <summary>
+        /// Contains info about the application making requests. Cannot be set to null.
+        /// </summary>
+        [JsonIgnore]
+        public RequestorInfo RequestorInfo {
+            get { return _requestorInfo; }
+            set {
+                if (value == null) return;
+                _requestorInfo = value;
+            }
+        }
         /// <summary>
         /// Unique ID
         /// </summary>
@@ -39,10 +52,15 @@ namespace BeatSaverSharp
             string pageURI = $"maps/{PageType.Uploader}/{ID}";
             string url = $"{pageURI}/{page}";
 
-            Page p = await BeatSaver.FetchPaged(url, token, progress);
+            Page p = await BeatSaver.FetchPaged(url, RequestorInfo, token, progress);
             p.PageURI = pageURI;
 
             return p;
+        }
+
+        internal User(RequestorInfo requestorInfo)
+        {
+            RequestorInfo = requestorInfo;
         }
     }
 }
