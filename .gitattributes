@@ -1,5 +1,5 @@
 # CRLF Normalisation
-text eol=lf
+* text eol=lf
 
 # Ignore meta files in ZIP export
 .gitattributes export-ignore
