@@ -18,7 +18,7 @@ namespace BeatSaverSharp
         public string Version { get; }
 
         /// <summary>
-        /// Construct a new Http User Agent
+        /// Construct a new HTTP User Agent Struct
         /// </summary>
         /// <param name="name"></param>
         /// <param name="version"></param>
@@ -29,7 +29,7 @@ namespace BeatSaverSharp
         }
 
         /// <summary>
-        /// Construct a new Http User Agent
+        /// Construct a new HTTP User Agent Struct
         /// </summary>
         /// <param name="name"></param>
         /// <param name="version"></param>

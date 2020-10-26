@@ -37,7 +37,7 @@ namespace BeatSaverSharp
         public HttpAgent[] Agents { get; }
 
         /// <summary>
-        /// 
+        /// Construct a new HTTP Options Struct
         /// </summary>
         /// <param name="name">Application Name</param>
         /// <param name="version">Application Version</param>
