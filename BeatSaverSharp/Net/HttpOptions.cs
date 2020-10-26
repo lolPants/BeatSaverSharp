@@ -44,13 +44,14 @@ namespace BeatSaverSharp
         /// <param name="agents">User Agents</param>
         /// <param name="timeout">HTTP Timeout</param>
         /// <param name="handleRateLimits">Handle Rate Limits Automatically</param>
-        public HttpOptions(string name, Version version, List<HttpAgent> agents, TimeSpan? timeout = null, bool? handleRateLimits = null)
+        public HttpOptions(string? name, Version? version, List<HttpAgent>? agents, TimeSpan? timeout = null, bool? handleRateLimits = null)
         {
-            ApplicationName = name;
-            Version = version;
+            ApplicationName = name ?? throw new ArgumentNullException(nameof(name));
+            Version = version ?? throw new ArgumentNullException(nameof(version));
             Timeout = timeout ?? TimeSpan.FromSeconds(30);
             HandleRateLimits = handleRateLimits ?? false;
 
+            if (agents is null) throw new ArgumentNullException(nameof(agents));
             if (agents.Count == 0) throw new MissingAgentException();
             Agents = agents.ToArray();
         }

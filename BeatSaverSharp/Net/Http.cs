@@ -15,9 +15,9 @@ namespace BeatSaverSharp
         internal HttpOptions Options { get; }
         internal HttpClient Client { get; }
 
-        internal Http(HttpOptions options)
+        internal Http(HttpOptions? options)
         {
-            Options = options;
+            Options = options ?? throw new ArgumentNullException(nameof(options));
 
             var handler = new HttpClientHandler
             {
@@ -27,13 +27,13 @@ namespace BeatSaverSharp
             Client = new HttpClient(handler)
             {
                 BaseAddress = new Uri($"{BeatSaver.BaseURL}/api/"),
-                Timeout = options.Timeout,
+                Timeout = Options.Timeout,
             };
 
             string libVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            string userAgent = $"{options.ApplicationName}/{options.Version} BeatSaverSharp/{libVersion}";
+            string userAgent = $"{Options.ApplicationName}/{Options.Version} BeatSaverSharp/{libVersion}";
 
-            foreach (var agent in options.Agents)
+            foreach (var agent in Options.Agents)
             {
                 userAgent += $" {agent.Name}/{agent.Version.ToString()}";
             }

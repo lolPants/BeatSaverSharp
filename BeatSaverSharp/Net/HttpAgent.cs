@@ -22,14 +22,22 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="name"></param>
         /// <param name="version"></param>
-        public HttpAgent(string name, string version) => (Name, Version) = (name, version);
+        public HttpAgent(string name, string version)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Version = version ?? throw new ArgumentNullException(nameof(version));
+        }
 
         /// <summary>
         /// Construct a new Http User Agent
         /// </summary>
         /// <param name="name"></param>
         /// <param name="version"></param>
-        public HttpAgent(string name, Version version) => (Name, Version) = (name, version.ToString());
+        public HttpAgent(string name, Version version)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Version = version?.ToString() ?? throw new ArgumentNullException(nameof(version));
+        }
 
         /// <summary>
         /// Deconstruct
