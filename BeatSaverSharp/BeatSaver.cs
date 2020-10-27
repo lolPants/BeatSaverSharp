@@ -63,7 +63,7 @@ namespace BeatSaverSharp
         public async Task<Beatmap?> Key(string? key, BeatmapRequestOptions? options = null)
         {
             if (key is null) throw new ArgumentNullException(nameof(key));
-            return await FetchSingle($"/stats/key/{key}", options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
+            return await FetchSingle($"/maps/detail/{key}", options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
         }
 
         /// <summary>
