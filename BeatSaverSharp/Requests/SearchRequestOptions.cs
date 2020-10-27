@@ -29,6 +29,7 @@ namespace BeatSaverSharp
         public IProgress<double>? Progress { get; set; } = null;
 
         /// <summary>
+        /// Construct a new Search Request Options Struct
         /// </summary>
         /// <param name="query">Search Query</param>
         public SearchRequestOptions(string? query)
