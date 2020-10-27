@@ -117,6 +117,55 @@ namespace BeatSaverSharp
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Populate a partial beatmap with data
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task Populate(BeatmapRequestOptions? options = null)
+        {
+            if (Partial == false)
+            {
+                return;
+            }
+
+            // TODO: Implement
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Fetch latest Beatmap values
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task Refresh(BeatmapRequestOptions? options = null)
+        {
+            if (Client is null) throw new NullReferenceException("Client should not be null!");
+            var b = await Client.StatsFromHash(Hash, options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
+
+            if (b is not null)
+            {
+                Name = b.Name;
+                Description = b.Description;
+                Stats = b.Stats;
+            }
+        }
+
+        /// <summary>
+        /// Fetch latest Beatmap stats
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task RefreshStats(BeatmapRequestOptions? options = null)
+        {
+            if (Client is null) throw new NullReferenceException("Client should not be null!");
+            var b = await Client.StatsFromHash(Hash, options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
+
+            if (b is not null)
+            {
+                Stats = b.Stats;
+            }
+        }
         #endregion
     }
 }

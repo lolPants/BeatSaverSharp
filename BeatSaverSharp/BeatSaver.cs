@@ -46,6 +46,11 @@ namespace BeatSaverSharp
 
             return b;
         }
+
+        internal async Task<Beatmap?> StatsFromHash(string hash, BeatmapRequestOptions options)
+        {
+            return await FetchSingle($"/stats/hash/{hash}", options).ConfigureAwait(false);
+        }
         #endregion
 
         #region Single Beatmap Methods
