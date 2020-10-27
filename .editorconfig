@@ -15,5 +15,5 @@ dotnet_separate_import_directive_groups = false
 [*.md]
 trim_trailing_whitespace = false
 
-[*.yml]
+[*.{yml,yaml,csproj}]
 indent_size = 2
