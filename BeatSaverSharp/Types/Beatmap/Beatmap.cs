@@ -262,6 +262,10 @@ namespace BeatSaverSharp
         }
         #endregion
 
+        #region Voting
+        // TODO: Voting Methods
+        #endregion
+
         #region Equality
         /// <summary>
         /// Check for value equality
