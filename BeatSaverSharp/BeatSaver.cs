@@ -41,8 +41,7 @@ namespace BeatSaverSharp
             if (b is null) return null;
 
             b.Client = this;
-            // TODO: Add client to beatmap uploader class
-            // b.Uploader.Client = this;
+            b.Uploader.Client = this;
 
             return b;
         }

@@ -21,6 +21,7 @@ namespace BeatSaverSharp
             ID = null!;
             Key = null!;
             Name = null!;
+            Uploader = null!;
             Metadata = null!;
             Stats = null!;
             DirectDownload = null!;
@@ -47,6 +48,7 @@ namespace BeatSaverSharp
             ID = null!;
             Key = null!;
             Name = null!;
+            Uploader = null!;
             Metadata = null!;
             Stats = null!;
             DirectDownload = null!;
@@ -84,7 +86,11 @@ namespace BeatSaverSharp
         [JsonProperty("description")]
         public string? Description { get; private set; }
 
-        // TODO: Uploader Property
+        /// <summary>
+        /// User who uploaded this beatmap
+        /// </summary>
+        [JsonProperty("uploader")]
+        public User Uploader { get; private set; }
 
         /// <summary>
         /// Timestamp when this map was uploaded
@@ -176,7 +182,7 @@ namespace BeatSaverSharp
             Key = map.Key;
             Name = map.Name;
             Description = map.Description;
-            // Uploader = map.Uploader;
+            Uploader = map.Uploader;
             Uploaded = map.Uploaded;
             Metadata = map.Metadata;
             Stats = map.Stats;
