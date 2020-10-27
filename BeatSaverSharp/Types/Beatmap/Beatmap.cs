@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using BeatSaverSharp.Exceptions;
@@ -263,7 +265,62 @@ namespace BeatSaverSharp
         #endregion
 
         #region Voting
-        // TODO: Voting Methods
+        private async Task Vote(string steamID, byte[] authTicket, VotePayload.VoteDirection direction)
+        {
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
+
+            var payload = new VotePayload(steamID, authTicket, direction);
+            string json = payload.ToJson();
+            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var resp = await Client.HttpClient.PostAsync($"vote/steam/{Key}", content).ConfigureAwait(false);
+            using var s = await resp.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            using var sr = new StreamReader(s);
+            using var reader = new JsonTextReader(sr);
+
+            if (resp.IsSuccessStatusCode == false)
+            {
+                var error = Http.Serializer.Deserialize<RestError>(reader);
+
+                if (error.Identifier == "ERR_INVALID_STEAM_ID") throw new InvalidSteamIDException(payload.SteamID);
+                if (error.Identifier == "ERR_STEAM_ID_MISMATCH") throw new InvalidSteamIDException(payload.SteamID);
+                if (error.Identifier == "ERR_INVALID_TICKET") throw new InvalidTicketException();
+                if (error.Identifier == "ERR_BAD_TICKET") throw new InvalidTicketException();
+
+                throw new UnknownVotingException(error);
+            }
+
+            Beatmap? updated = Http.Serializer.Deserialize<Beatmap>(reader);
+            if (updated is not null) Stats = updated.Stats;
+        }
+
+        /// <summary>
+        /// Submit an Upvote for this Beatmap
+        /// </summary>
+        /// <param name="steamID">Steam ID of Voter</param>
+        /// <param name="authTicket">Steam Authentication Ticket</param>
+        /// <returns></returns>
+        public async Task VoteUp(string? steamID, byte[]? authTicket)
+        {
+            if (steamID is null) throw new ArgumentNullException(nameof(steamID));
+            if (authTicket is null) throw new ArgumentNullException(nameof(authTicket));
+
+            await Vote(steamID, authTicket, VotePayload.VoteDirection.Up).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Submit a Downvote for this Beatmap
+        /// </summary>
+        /// <param name="steamID">Steam ID of Voter</param>
+        /// <param name="authTicket">Steam Authentication Ticket</param>
+        /// <returns></returns>
+        public async Task VoteDown(string? steamID, byte[]? authTicket)
+        {
+            if (steamID is null) throw new ArgumentNullException(nameof(steamID));
+            if (authTicket is null) throw new ArgumentNullException(nameof(authTicket));
+
+            await Vote(steamID, authTicket, VotePayload.VoteDirection.Down).ConfigureAwait(false);
+        }
         #endregion
 
         #region Equality
