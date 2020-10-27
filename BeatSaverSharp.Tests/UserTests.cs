@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static BeatSaverSharp.Tests.Utils;
@@ -34,25 +35,29 @@ namespace BeatSaverSharp.Tests
         [TestMethod]
         public async Task BeatmapsIterator()
         {
-            var user = await Client.User("5cff0b7398cc5a672c84efe4");
+            var user = await Client.User("5cff0b7498cc5a672c85050e");
             Assert.IsNotNull(user);
 
-            // TODO: Reimplement
-            Assert.Fail();
+            int target = 25;
+            HashSet<string> keys = new();
 
-            //if (user is not null)
-            //{
-            //    int i = 0;
-            //    await foreach (var map in user.BeatmapsIterator())
-            //    {
-            //        Assert.IsNotNull(map.Key);
-            //        Assert.AreEqual(map.Uploader.ID, "5cff0b7398cc5a672c84efe4");
-            //        Assert.AreEqual(map.Uploader.Username, "lolpants");
+            if (user is not null)
+            {
+                int i = 0;
+                await foreach (var map in user.BeatmapsIterator())
+                {
+                    keys.Add(map.Key);
 
-            //        if (i > 25) break;
-            //        i++;
-            //    }
-            //}
+                    Assert.IsNotNull(map.Key);
+                    Assert.AreEqual(map.Uploader.ID, "5cff0b7498cc5a672c85050e");
+                    Assert.AreEqual(map.Uploader.Username, "joetastic");
+
+                    if (i > target) break;
+                    i++;
+                }
+            }
+
+            Assert.IsTrue(keys.Count >= target);
         }
         #endregion
 
