@@ -9,6 +9,11 @@ namespace BeatSaverSharp
     public sealed class PagedRequestOptions : IRequest, IRequestOptions
     {
         /// <summary>
+        /// Default Paged Request Options
+        /// </summary>
+        public static PagedRequestOptions Default { get => new PagedRequestOptions(); }
+
+        /// <summary>
         /// </summary>
         public enum AutomapFilter
         {
