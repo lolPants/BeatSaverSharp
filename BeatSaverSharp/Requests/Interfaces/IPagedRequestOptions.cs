@@ -2,8 +2,8 @@ namespace BeatSaverSharp
 {
     internal interface IPagedRequestOptions : IRequestOptions
     {
-        int Page { get; }
+        uint Page { get; }
 
-        internal IPagedRequestOptions Clone(IRequest? options = null, int? page = null);
+        internal IPagedRequestOptions Clone(IRequest? options = null, uint? page = null);
     }
 }

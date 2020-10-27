@@ -36,7 +36,7 @@ namespace BeatSaverSharp
         /// <summary>
         /// Page Index
         /// </summary>
-        public int Page { get; set; } = 0;
+        public uint Page { get; set; } = 0;
 
         /// <summary>
         /// Automap Filter
@@ -72,7 +72,7 @@ namespace BeatSaverSharp
             return wr;
         }
 
-        IPagedRequestOptions IPagedRequestOptions.Clone(IRequest? options, int? page)
+        IPagedRequestOptions IPagedRequestOptions.Clone(IRequest? options, uint? page)
         {
             var clone = new PagedRequestOptions
             {
@@ -81,7 +81,7 @@ namespace BeatSaverSharp
                 Automaps = Automaps,
             };
 
-            if (page is not null) clone.Page = (int)page;
+            if (page is not null) clone.Page = (uint)page;
             return clone;
         }
     }

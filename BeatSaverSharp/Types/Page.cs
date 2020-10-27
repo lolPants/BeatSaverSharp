@@ -27,19 +27,19 @@ namespace BeatSaverSharp
         /// Index of the Last Page
         /// </summary>
         [JsonProperty("lastPage")]
-        public int LastPage { get; private set; }
+        public uint LastPage { get; private set; }
 
         /// <summary>
         /// Index of the Previous Page
         /// </summary>
         [JsonProperty("prevPage")]
-        public int? PreviousPage { get; private set; }
+        public uint? PreviousPage { get; private set; }
 
         /// <summary>
         /// Index of the Next Page
         /// </summary>
         [JsonProperty("nextPage")]
-        public int? NextPage { get; private set; }
+        public uint? NextPage { get; private set; }
         #endregion
 
         #region Properties
@@ -66,7 +66,7 @@ namespace BeatSaverSharp
             if (URI is null) throw new NullReferenceException($"{nameof(URI)} should not be null!");
             if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
-            IPagedRequestOptions clone = Options.Clone(options, (int)PreviousPage);
+            IPagedRequestOptions clone = Options.Clone(options, (uint)PreviousPage);
             var page = await Client.FetchPaged(URI, clone).ConfigureAwait(false);
 
             return page!;
@@ -84,7 +84,7 @@ namespace BeatSaverSharp
             if (URI is null) throw new NullReferenceException($"{nameof(URI)} should not be null!");
             if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
-            IPagedRequestOptions clone = Options.Clone(options, (int)NextPage);
+            IPagedRequestOptions clone = Options.Clone(options, (uint)NextPage);
             var page = await Client.FetchPaged(URI, clone).ConfigureAwait(false);
 
             return page!;
