@@ -198,7 +198,7 @@ namespace BeatSaverSharp
 
         #region Async Enumerables
 #if NETSTANDARD2_1
-        private async IAsyncEnumerable<Beatmap> PageIterator(Task<Page> firstTask, PagedRequestOptions? options)
+        internal async IAsyncEnumerable<Beatmap> PageIterator(Task<Page> firstTask, PagedRequestOptions? options)
         {
             Page? maps = null;
 

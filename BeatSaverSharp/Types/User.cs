@@ -1,4 +1,7 @@
 using System;
+#if NETSTANDARD2_1
+using System.Collections.Generic;
+#endif
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -40,6 +43,21 @@ namespace BeatSaverSharp
             var page = await Client.FetchPaged($"/maps/uploader/{ID}", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
             return page!;
         }
+        #endregion
+
+        #region Async Enumerables
+#if NETSTANDARD2_1
+        /// <summary>
+        /// Return an async iterator for all beatmaps from this user
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public IAsyncEnumerable<Beatmap> BeatmapsIterator(PagedRequestOptions? options = null)
+        {
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
+            return Client.PageIterator(Beatmaps(options), options);
+        }
+#endif
         #endregion
 
         #region Equality
