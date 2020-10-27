@@ -146,6 +146,30 @@ namespace BeatSaverSharp
         }
         #endregion
 
+        #region Search Methods
+        /// <summary>
+        /// Fetch a page of beatmaps using standard text search
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task<Page> Search(SearchRequestOptions options)
+        {
+            var page = await FetchPaged($"/search/text", options).ConfigureAwait(false);
+            return page!;
+        }
+
+        /// <summary>
+        /// Fetch a page of beatmaps using advanced Lucene syntax search
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task<Page> SearchAdvanced(SearchRequestOptions options)
+        {
+            var page = await FetchPaged($"/search/advanced", options).ConfigureAwait(false);
+            return page!;
+        }
+        #endregion
+
         #region User Method
         /// <summary>
         /// Fetch a User by ID
