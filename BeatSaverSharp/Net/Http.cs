@@ -96,8 +96,7 @@ namespace BeatSaverSharp
             while ((bytesRead = await s.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
             {
                 if (token.IsCancellationRequested) throw new TaskCanceledException();
-
-                if (contentLength != null)
+                if (contentLength is not null)
                 {
                     double prog = (double)totalRead / (double)contentLength;
                     request.Progress?.Report(prog);
