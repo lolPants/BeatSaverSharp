@@ -6,7 +6,7 @@ namespace BeatSaverSharp
     /// <summary>
     /// HTTP Options
     /// </summary>
-    public struct HttpOptions
+    public sealed class HttpOptions
     {
         private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(30);
         private static readonly bool _defaultHandleRateLimits = false;
