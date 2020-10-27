@@ -13,36 +13,49 @@ namespace BeatSaverSharp.Tests
     {
         #region Constructor Tests
         [TestMethod]
-        public void DefaultOptions()
+        public void WithoutOptions()
         {
-            _ = new BeatSaver();
-
-            var options = new HttpOptions();
-            _ = new BeatSaver(options);
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                _ = new BeatSaver(options: null);
+            });
         }
 
         [TestMethod]
         public void ApplicationNameAndVersion()
         {
-            var options = new HttpOptions()
-            {
-                ApplicationName = "TestApp",
-                Version = new Version(1, 0),
-            };
-
+            var options = new HttpOptions("TestApp", new Version(1, 0));
             _ = new BeatSaver(options);
         }
 
         [TestMethod]
-        public void ApplicationNameWithoutVersion()
+        public void ApplicationWithNameWithoutVersion()
         {
-            var options = new HttpOptions()
+            Assert.ThrowsException<ArgumentNullException>(() =>
             {
-                ApplicationName = "TestApp",
-            };
+                string? version = null;
+                var options = new HttpOptions("TestApp", version);
+                _ = new BeatSaver(options);
+            });
+        }
 
-            Assert.ThrowsException<ArgumentException>(() =>
+        [TestMethod]
+        public void ApplicationWithoutNameWithVersion()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
             {
+                var options = new HttpOptions(null, new Version(1, 0));
+                _ = new BeatSaver(options);
+            });
+        }
+
+        [TestMethod]
+        public void ApplicationWithoutNameWithoutVersion()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                string? version = null;
+                var options = new HttpOptions(null, version);
                 _ = new BeatSaver(options);
             });
         }
@@ -55,7 +68,7 @@ namespace BeatSaverSharp.Tests
             using CancellationTokenSource cts = new CancellationTokenSource();
             CancellationToken token = cts.Token;
 
-            var map = await Client.Key("4c19", token);
+            var map = await Client.Key("4c19", new StandardRequestOptions { Token = token });
             CheckOvercooked(map);
         }
 
@@ -66,10 +79,10 @@ namespace BeatSaverSharp.Tests
             CancellationToken token = cts.Token;
             cts.Cancel();
 
-            Beatmap map = null;
+            Beatmap? map = null;
             try
             {
-                map = await Client.Key("4c19", token: token);
+                map = await Client.Key("4c19", new StandardRequestOptions { Token = token });
             }
             catch (TaskCanceledException)
             {
@@ -181,7 +194,7 @@ namespace BeatSaverSharp.Tests
         [TestMethod]
         public async Task ValidSearch()
         {
-            var maps = await Client.Search("overcooked");
+            var maps = await Client.Search(new SearchRequestOptions("overcooked"));
             Assert.IsTrue(maps.TotalDocs > 0);
             Assert.IsTrue(maps.Docs.Count > 0);
         }
@@ -191,7 +204,7 @@ namespace BeatSaverSharp.Tests
         {
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
             {
-                var map = await Client.Search(null);
+                var map = await Client.Search(new SearchRequestOptions(null));
             });
         }
         #endregion
@@ -200,7 +213,7 @@ namespace BeatSaverSharp.Tests
         [TestMethod]
         public async Task ValidSearchAdvanced()
         {
-            var maps = await Client.SearchAdvanced("uploader.username:lolpants AND name:overcooked");
+            var maps = await Client.SearchAdvanced(new SearchRequestOptions("uploader.username:lolpants AND name:overcooked"));
             Assert.IsTrue(maps.TotalDocs == 1);
             Assert.IsTrue(maps.Docs.Count == 1);
 
@@ -213,7 +226,7 @@ namespace BeatSaverSharp.Tests
         {
             await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () =>
             {
-                var map = await Client.SearchAdvanced(null);
+                var map = await Client.SearchAdvanced(new SearchRequestOptions(null));
             });
         }
         #endregion
@@ -223,9 +236,13 @@ namespace BeatSaverSharp.Tests
         public async Task ValidUser()
         {
             var user = await Client.User("5cff0b7298cc5a672c84e98d");
+            Assert.IsNotNull(user);
 
-            Assert.AreEqual(user.ID, "5cff0b7298cc5a672c84e98d");
-            Assert.AreEqual(user.Username, "bennydabeast");
+            if (user is not null)
+            {
+                Assert.AreEqual(user.ID, "5cff0b7298cc5a672c84e98d");
+                Assert.AreEqual(user.Username, "bennydabeast");
+            }
         }
 
         [TestMethod]

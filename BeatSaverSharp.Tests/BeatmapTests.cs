@@ -63,28 +63,50 @@ namespace BeatSaverSharp.Tests
         public async Task Refresh()
         {
             var map = await Client.Key("28a");
-            await map.Refresh();
+            Assert.IsNotNull(map);
+
+            if (map is not null)
+            {
+                await map.Refresh();
+            }
         }
 
         [TestMethod]
         public async Task RefreshStats()
         {
             var map = await Client.Key("28a");
-            await map.RefreshStats();
+            Assert.IsNotNull(map);
+
+            if (map is not null)
+            {
+                await map.RefreshStats();
+            }
         }
 
         [TestMethod]
         public async Task DownloadZip()
         {
             var map = await Client.Key("28a");
-            _ = await map.DownloadZip();
+            Assert.IsNotNull(map);
+
+            if (map is not null)
+            {
+                var bytes = await map.ZipBytes();
+                Assert.AreNotEqual(bytes.Length, 0);
+            }
         }
 
         [TestMethod]
         public async Task FetchCoverImage()
         {
             var map = await Client.Key("28a");
-            _ = await map.FetchCoverImage();
+            Assert.IsNotNull(map);
+
+            if (map is not null)
+            {
+                var bytes = await map.CoverImageBytes();
+                Assert.AreNotEqual(bytes.Length, 0);
+            }
         }
         #endregion
 
@@ -97,9 +119,13 @@ namespace BeatSaverSharp.Tests
             var otherTask = Client.Key("28a");
 
             var x = await Task.WhenAll(keyTask, hashTask, otherTask);
-            Beatmap key = x[0];
-            Beatmap hash = x[1];
-            Beatmap other = x[2];
+            Beatmap? key = x[0];
+            Beatmap? hash = x[1];
+            Beatmap? other = x[2];
+
+            Assert.IsNotNull(key);
+            Assert.IsNotNull(hash);
+            Assert.IsNotNull(other);
 
             Assert.AreEqual(key, hash);
             Assert.AreNotEqual(key, other);
