@@ -47,7 +47,7 @@ namespace BeatSaverSharp
         public override int GetHashCode()
         {
             if (ID is not null) return ID.GetHashCode();
-            throw new NullReferenceException("ID should not be null!");
+            throw new NullReferenceException($"{nameof(ID)} should not be null!");
         }
         #endregion
     }

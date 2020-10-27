@@ -61,10 +61,10 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task<Page> Previous(PagedRequestOptions? options = null)
         {
-            if (PreviousPage is null) throw new NullReferenceException("PreviousPage is null!");
-            if (Client is null) throw new NullReferenceException("Client should not be null!");
-            if (URI is null) throw new NullReferenceException("URI should not be null!");
-            if (Options is null) throw new NullReferenceException("Options should not be null!");
+            if (PreviousPage is null) throw new NullReferenceException($"{nameof(PreviousPage)} is null!");
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
+            if (URI is null) throw new NullReferenceException($"{nameof(URI)} should not be null!");
+            if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
             var newOptions = options ?? PagedRequestOptions.Default;
             newOptions.Page = (int)PreviousPage;
@@ -80,10 +80,10 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task<Page> Next(PagedRequestOptions? options = null)
         {
-            if (NextPage is null) throw new NullReferenceException("NextPage is null!");
-            if (Client is null) throw new NullReferenceException("Client should not be null!");
-            if (URI is null) throw new NullReferenceException("URI should not be null!");
-            if (Options is null) throw new NullReferenceException("Options should not be null!");
+            if (NextPage is null) throw new NullReferenceException($"{nameof(NextPage)} is null!");
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
+            if (URI is null) throw new NullReferenceException($"{nameof(URI)} should not be null!");
+            if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
             var newOptions = options ?? PagedRequestOptions.Default;
             newOptions.Page = (int)NextPage;

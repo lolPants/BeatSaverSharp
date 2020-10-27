@@ -41,7 +41,7 @@ namespace BeatSaverSharp
         {
             if (key is null && hash is null)
             {
-                throw new ArgumentException("Key and Hash cannot both be null");
+                throw new ArgumentException($"{nameof(Key)} and {nameof(Hash)} cannot both be null");
             }
 
             Client = client;
@@ -164,8 +164,8 @@ namespace BeatSaverSharp
         public async Task Populate(BeatmapRequestOptions? options = null)
         {
             if (Partial == false) return;
-            if (Client is null) throw new NullReferenceException("Client should not be null!");
-            if (Key is null && Hash is null) throw new ArgumentException("Key and Hash cannot both be null");
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
+            if (Key is null && Hash is null) throw new ArgumentException($"{nameof(Key)} and {nameof(Hash)} cannot both be null");
 
             var map = Hash is not null
                 ? await Client.Hash(Hash, options).ConfigureAwait(false)
@@ -199,7 +199,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task Refresh(BeatmapRequestOptions? options = null)
         {
-            if (Client is null) throw new NullReferenceException("Client should not be null!");
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
             var b = await Client.StatsFromHash(Hash, options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
 
             if (b is not null)
@@ -217,7 +217,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task RefreshStats(BeatmapRequestOptions? options = null)
         {
-            if (Client is null) throw new NullReferenceException("Client should not be null!");
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
             var b = await Client.StatsFromHash(Hash, options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
 
             if (b is not null)
@@ -251,7 +251,7 @@ namespace BeatSaverSharp
             if (Key is not null) return Key.GetHashCode();
             if (Hash is not null) return Hash.GetHashCode();
 
-            throw new NullReferenceException("ID, Key, and Hash should not all be null!");
+            throw new NullReferenceException($"{nameof(ID)}, {nameof(Key)}, and {nameof(Hash)} should not all be null!");
         }
         #endregion
     }
