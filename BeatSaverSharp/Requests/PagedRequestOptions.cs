@@ -6,7 +6,7 @@ namespace BeatSaverSharp
     /// <summary>
     /// Options for a paged beatmap request
     /// </summary>
-    public sealed class PagedRequestOptions : IRequest, IRequestOptions
+    public sealed class PagedRequestOptions : IPagedRequestOptions, IRequest
     {
         /// <summary>
         /// Default Paged Request Options
@@ -70,6 +70,19 @@ namespace BeatSaverSharp
             }
 
             return wr;
+        }
+
+        IPagedRequestOptions IPagedRequestOptions.Clone(IRequest? options, int? page)
+        {
+            var clone = new PagedRequestOptions
+            {
+                Token = options?.Token,
+                Progress = options?.Progress,
+                Automaps = Automaps,
+            };
+
+            if (page is not null) clone.Page = (int)page;
+            return clone;
         }
     }
 }

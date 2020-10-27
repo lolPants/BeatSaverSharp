@@ -50,7 +50,7 @@ namespace BeatSaverSharp
         internal string? URI { get; set; }
 
         [JsonIgnore]
-        internal PagedRequestOptions? Options { get; set; }
+        internal IPagedRequestOptions? Options { get; set; }
         #endregion
 
         #region Methods
@@ -66,11 +66,9 @@ namespace BeatSaverSharp
             if (URI is null) throw new NullReferenceException($"{nameof(URI)} should not be null!");
             if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
-            var newOptions = options ?? PagedRequestOptions.Default;
-            newOptions.Automaps = Options.Automaps;
-            newOptions.Page = (int)PreviousPage;
+            IPagedRequestOptions clone = Options.Clone(options, (int)PreviousPage);
+            var page = await Client.FetchPaged(URI, clone).ConfigureAwait(false);
 
-            var page = await Client.FetchPaged(URI, newOptions).ConfigureAwait(false);
             return page!;
         }
 
@@ -86,11 +84,9 @@ namespace BeatSaverSharp
             if (URI is null) throw new NullReferenceException($"{nameof(URI)} should not be null!");
             if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
-            var newOptions = options ?? PagedRequestOptions.Default;
-            newOptions.Automaps = Options.Automaps;
-            newOptions.Page = (int)NextPage;
+            IPagedRequestOptions clone = Options.Clone(options, (int)NextPage);
+            var page = await Client.FetchPaged(URI, clone).ConfigureAwait(false);
 
-            var page = await Client.FetchPaged(URI, newOptions).ConfigureAwait(false);
             return page!;
         }
         #endregion

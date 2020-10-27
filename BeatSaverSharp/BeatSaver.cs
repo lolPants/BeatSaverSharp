@@ -51,7 +51,7 @@ namespace BeatSaverSharp
             return await FetchSingle($"/stats/hash/{hash}", options).ConfigureAwait(false);
         }
 
-        internal async Task<Page?> FetchPaged(string url, PagedRequestOptions options)
+        internal async Task<Page?> FetchPaged(string url, IPagedRequestOptions options)
         {
             var request = WebRequest.FromOptions(url, options);
             var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
