@@ -4,7 +4,7 @@ namespace BeatSaverSharp
 {
     /// <summary>
     /// </summary>
-    public struct BeatmapCharacteristicDifficulty
+    public sealed record BeatmapCharacteristicDifficulty
     {
         /// <summary>
         /// Length of the beatmap (in beats)

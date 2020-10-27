@@ -4,7 +4,7 @@ namespace BeatSaverSharp
 {
     /// <summary>
     /// </summary>
-    public struct Stats
+    public sealed record Stats
     {
         /// <summary>
         /// </summary>

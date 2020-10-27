@@ -5,7 +5,7 @@ namespace BeatSaverSharp
     /// <summary>
     /// Available Difficulties
     /// </summary>
-    public struct Difficulties
+    public sealed record Difficulties
     {
         /// <summary>
         /// </summary>

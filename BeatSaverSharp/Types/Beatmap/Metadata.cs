@@ -5,27 +5,27 @@ namespace BeatSaverSharp
 {
     /// <summary>
     /// </summary>
-    public struct Metadata
+    public sealed record Metadata
     {
         /// <summary>
         /// </summary>
         [JsonProperty("songName")]
-        public string SongName { get; private set; }
+        public string SongName { get; private set; } = null!;
 
         /// <summary>
         /// </summary>
         [JsonProperty("songSubName")]
-        public string SongSubName { get; private set; }
+        public string SongSubName { get; private set; } = null!;
 
         /// <summary>
         /// </summary>
         [JsonProperty("songAuthorName")]
-        public string SongAuthorName { get; private set; }
+        public string SongAuthorName { get; private set; } = null!;
 
         /// <summary>
         /// </summary>
         [JsonProperty("levelAuthorName")]
-        public string LevelAuthorName { get; private set; }
+        public string LevelAuthorName { get; private set; } = null!;
 
         /// <summary>
         /// Duration of the Audio File (in seconds)
@@ -48,11 +48,11 @@ namespace BeatSaverSharp
         /// <summary>
         /// </summary>
         [JsonProperty("difficulties")]
-        public Difficulties Difficulties { get; private set; }
+        public Difficulties Difficulties { get; private set; } = null!;
 
         /// <summary>
         /// </summary>
         [JsonProperty("characteristics")]
-        public ReadOnlyCollection<BeatmapCharacteristic> Characteristics { get; private set; }
+        public ReadOnlyCollection<BeatmapCharacteristic> Characteristics { get; private set; } = null!;
     }
 }

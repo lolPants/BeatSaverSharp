@@ -21,6 +21,8 @@ namespace BeatSaverSharp
             ID = null!;
             Key = null!;
             Name = null!;
+            Metadata = null!;
+            Stats = null!;
             DirectDownload = null!;
             DownloadURL = null!;
             CoverURL = null!;
@@ -45,6 +47,8 @@ namespace BeatSaverSharp
             ID = null!;
             Key = null!;
             Name = null!;
+            Metadata = null!;
+            Stats = null!;
             DirectDownload = null!;
             DownloadURL = null!;
             CoverURL = null!;
