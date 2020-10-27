@@ -32,7 +32,7 @@ namespace BeatSaverSharp
 
         public byte[] Bytes() => _body;
         public string String() => Encoding.UTF8.GetString(_body);
-        public T JSON<T>()
+        public T? JSON<T>()
         {
             string body = String();
 
