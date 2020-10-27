@@ -1,4 +1,6 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace BeatSaverSharp
@@ -45,7 +47,50 @@ namespace BeatSaverSharp
         internal BeatSaver? Client { get; set; }
 
         [JsonIgnore]
+        internal string? URI { get; set; }
+
+        [JsonIgnore]
         internal PagedRequestOptions? Options { get; set; }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Fetch the next page in this sequence
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task<Page> Previous(PagedRequestOptions? options = null)
+        {
+            if (PreviousPage is null) throw new NullReferenceException("PreviousPage is null!");
+            if (Client is null) throw new NullReferenceException("Client should not be null!");
+            if (URI is null) throw new NullReferenceException("URI should not be null!");
+            if (Options is null) throw new NullReferenceException("Options should not be null!");
+
+            var newOptions = options ?? PagedRequestOptions.Default;
+            newOptions.Page = (int)PreviousPage;
+
+            var page = await Client.FetchPaged(URI, newOptions).ConfigureAwait(false);
+            return page!;
+        }
+
+        /// <summary>
+        /// Fetch the next page in this sequence
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task<Page> Next(PagedRequestOptions? options = null)
+        {
+            if (NextPage is null) throw new NullReferenceException("NextPage is null!");
+            if (Client is null) throw new NullReferenceException("Client should not be null!");
+            if (URI is null) throw new NullReferenceException("URI should not be null!");
+            if (Options is null) throw new NullReferenceException("Options should not be null!");
+
+            var newOptions = options ?? PagedRequestOptions.Default;
+            newOptions.Page = (int)NextPage;
+
+            var page = await Client.FetchPaged(URI, newOptions).ConfigureAwait(false);
+            return page!;
+        }
         #endregion
     }
 }

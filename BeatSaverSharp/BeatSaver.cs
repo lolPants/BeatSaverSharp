@@ -61,6 +61,7 @@ namespace BeatSaverSharp
             if (p is null) return null;
 
             p.Client = this;
+            p.URI = url;
             p.Options = options;
 
             foreach (var b in p.Docs)
