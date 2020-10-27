@@ -101,10 +101,6 @@ namespace BeatSaverSharp.Tests
             {
                 // Pass
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
 
             Assert.IsNull(map);
         }
