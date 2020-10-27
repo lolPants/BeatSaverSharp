@@ -43,10 +43,8 @@ namespace BeatSaverSharp
             Client.DefaultRequestHeaders.Add("User-Agent", userAgent);
         }
 
-        internal async Task<HttpResponse> GetAsync(IWebRequest? request)
+        internal async Task<HttpResponse> GetAsync(WebRequest request)
         {
-            if (request is null) throw new ArgumentNullException(nameof(request));
-
             var token = request.Token ?? CancellationToken.None;
             var msg = new HttpRequestMessage(HttpMethod.Get, request.Uri);
             foreach (var header in request.Headers)

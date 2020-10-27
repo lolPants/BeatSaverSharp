@@ -4,11 +4,9 @@ using System.Threading;
 
 namespace BeatSaverSharp
 {
-    internal interface IWebRequest
+    internal interface IRequest
     {
-        string Uri { get; }
         CancellationToken? Token { get; }
         IProgress<double>? Progress { get; }
-        HttpRequestHeaders Headers { get; }
     }
 }
