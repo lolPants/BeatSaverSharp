@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using BeatSaverSharp.Exceptions;
 
 namespace BeatSaverSharp
 {
@@ -213,6 +214,34 @@ namespace BeatSaverSharp
             {
                 Stats = b.Stats;
             }
+        }
+        #endregion
+
+        #region Equality
+        /// <summary>
+        /// Check for value equality
+        /// </summary>
+        /// <param name="b">Beatmap to compare against</param>
+        /// <returns></returns>
+        public bool Equals(Beatmap b)
+        {
+            if (b is null) return false;
+            if (ReferenceEquals(this, b)) return true;
+            if (GetType() != b.GetType()) return false;
+
+            return (ID == b.ID) || (Key == b.Key) || (Hash == b.Hash);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            if (ID is not null) return ID.GetHashCode();
+            if (Key is not null) return Key.GetHashCode();
+            if (Hash is not null) return Hash.GetHashCode();
+
+            throw new NullReferenceException("ID, Key, and Hash should not all be null!");
         }
         #endregion
     }
