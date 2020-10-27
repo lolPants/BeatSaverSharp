@@ -17,6 +17,8 @@ namespace BeatSaverSharp
         public RateLimitInfo? RateLimit { get; }
 
         private readonly byte[] _body;
+        public byte[] Bytes { get => _body; }
+        public string Body { get => Encoding.UTF8.GetString(_body); }
 
         internal HttpResponse(HttpResponseMessage resp, byte[] body)
         {
@@ -30,14 +32,10 @@ namespace BeatSaverSharp
             _body = body;
         }
 
-        public byte[] Bytes() => _body;
-        public string String() => Encoding.UTF8.GetString(_body);
         public T? JSON<T>()
         {
-            string body = String();
-
-            using StringReader sr = new StringReader(body);
-            using JsonTextReader reader = new JsonTextReader(sr);
+            using var sr = new StringReader(Body);
+            using var reader = new JsonTextReader(sr);
 
             return Http.Serializer.Deserialize<T>(reader);
         }
