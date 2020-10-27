@@ -22,7 +22,7 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="name"></param>
         /// <param name="version"></param>
-        public HttpAgent(string name, string version)
+        public HttpAgent(string? name, string? version)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Version = version ?? throw new ArgumentNullException(nameof(version));
@@ -33,7 +33,7 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="name"></param>
         /// <param name="version"></param>
-        public HttpAgent(string name, Version version)
+        public HttpAgent(string? name, Version? version)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Version = version?.ToString() ?? throw new ArgumentNullException(nameof(version));

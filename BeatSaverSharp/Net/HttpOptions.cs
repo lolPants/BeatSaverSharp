@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using BeatSaverSharp.Exceptions;
 
 namespace BeatSaverSharp
 {
@@ -9,6 +8,10 @@ namespace BeatSaverSharp
     /// </summary>
     public struct HttpOptions
     {
+        private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(30);
+        private static readonly bool _defaultHandleRateLimits = false;
+        private static readonly List<HttpAgent> _defaultAgents = new();
+
         /// <summary>
         /// Application Name
         /// </summary>
@@ -17,7 +20,7 @@ namespace BeatSaverSharp
         /// <summary>
         /// Application Version
         /// </summary>
-        public Version Version { get; }
+        public string Version { get; }
 
         /// <summary>
         /// HTTP Timeout
@@ -41,18 +44,36 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="name">Application Name</param>
         /// <param name="version">Application Version</param>
-        /// <param name="agents">User Agents</param>
         /// <param name="timeout">HTTP Timeout</param>
         /// <param name="handleRateLimits">Handle Rate Limits Automatically</param>
-        public HttpOptions(string? name, Version? version, List<HttpAgent>? agents, TimeSpan? timeout = null, bool? handleRateLimits = null)
+        /// <param name="agents">Additional User Agents</param>
+        public HttpOptions(string? name, Version? version, TimeSpan? timeout = null, bool? handleRateLimits = null, List<HttpAgent>? agents = null)
+        {
+            ApplicationName = name ?? throw new ArgumentNullException(nameof(name));
+            Version = version?.ToString() ?? throw new ArgumentNullException(nameof(version));
+            Timeout = timeout ?? _defaultTimeout;
+            HandleRateLimits = handleRateLimits ?? _defaultHandleRateLimits;
+
+            agents ??= _defaultAgents;
+            Agents = agents.ToArray();
+        }
+
+        /// <summary>
+        /// Construct a new HTTP Options Struct
+        /// </summary>
+        /// <param name="name">Application Name</param>
+        /// <param name="version">Application Version</param>
+        /// <param name="timeout">HTTP Timeout</param>
+        /// <param name="handleRateLimits">Handle Rate Limits Automatically</param>
+        /// <param name="agents">Additional User Agents</param>
+        public HttpOptions(string? name, string? version, TimeSpan? timeout = null, bool? handleRateLimits = null, List<HttpAgent>? agents = null)
         {
             ApplicationName = name ?? throw new ArgumentNullException(nameof(name));
             Version = version ?? throw new ArgumentNullException(nameof(version));
-            Timeout = timeout ?? TimeSpan.FromSeconds(30);
-            HandleRateLimits = handleRateLimits ?? false;
+            Timeout = timeout ?? _defaultTimeout;
+            HandleRateLimits = handleRateLimits ?? _defaultHandleRateLimits;
 
-            if (agents is null) throw new ArgumentNullException(nameof(agents));
-            if (agents.Count == 0) throw new MissingAgentException();
+            agents ??= _defaultAgents;
             Agents = agents.ToArray();
         }
     }
