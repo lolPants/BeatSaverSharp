@@ -156,7 +156,7 @@ namespace BeatSaverSharp
             if (Client is null) throw new NullReferenceException("Client should not be null!");
             if (Key is null && Hash is null) throw new ArgumentException("Key and Hash cannot both be null");
 
-            var map = Hash is null
+            var map = Hash is not null
                 ? await Client.Hash(Hash, options).ConfigureAwait(false)
                 : await Client.Key(Key, options).ConfigureAwait(false);
 
