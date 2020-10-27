@@ -67,6 +67,7 @@ namespace BeatSaverSharp
             if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
             var newOptions = options ?? PagedRequestOptions.Default;
+            newOptions.Automaps = Options.Automaps;
             newOptions.Page = (int)PreviousPage;
 
             var page = await Client.FetchPaged(URI, newOptions).ConfigureAwait(false);
@@ -86,6 +87,7 @@ namespace BeatSaverSharp
             if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
             var newOptions = options ?? PagedRequestOptions.Default;
+            newOptions.Automaps = Options.Automaps;
             newOptions.Page = (int)NextPage;
 
             var page = await Client.FetchPaged(URI, newOptions).ConfigureAwait(false);
