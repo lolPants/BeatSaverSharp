@@ -48,8 +48,14 @@ namespace BeatSaverSharp
             if (request is null) throw new ArgumentNullException(nameof(request));
 
             var token = request.Token ?? CancellationToken.None;
+            var msg = new HttpRequestMessage(HttpMethod.Get, request.Uri);
+            foreach (var header in request.Headers)
+            {
+                msg.Headers.Add(header.Key, header.Value);
+            }
+
             var resp = await Client
-                .GetAsync(request.Uri, HttpCompletionOption.ResponseHeadersRead, token)
+                .SendAsync(msg, HttpCompletionOption.ResponseHeadersRead, token)
                 .ConfigureAwait(false);
 
             if ((int)resp.StatusCode == 429)
