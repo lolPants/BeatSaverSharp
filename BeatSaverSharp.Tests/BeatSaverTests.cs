@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -56,6 +57,18 @@ namespace BeatSaverSharp.Tests
             {
                 string? version = null;
                 var options = new HttpOptions(null, version);
+                _ = new BeatSaver(options);
+            });
+        }
+
+        [TestMethod]
+        public void BlankUserAgent()
+        {
+            Assert.ThrowsException<NullReferenceException>(() =>
+            {
+                HttpAgent agent = new HttpAgent();
+
+                var options = new HttpOptions("TestApp", new Version(1, 0), agents: new List<HttpAgent> { agent });
                 _ = new BeatSaver(options);
             });
         }

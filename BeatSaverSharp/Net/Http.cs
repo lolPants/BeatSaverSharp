@@ -37,6 +37,9 @@ namespace BeatSaverSharp
 
             foreach (var agent in Options.Agents)
             {
+                if (agent.Name is null) throw new NullReferenceException($"{nameof(agent)}.{nameof(agent.Name)} must not be null!");
+                if (agent.Version is null) throw new NullReferenceException($"{nameof(agent)}.{nameof(agent.Version)} must not be null!");
+
                 userAgent += $" {agent.Name}/{agent.Version}";
             }
 
