@@ -182,6 +182,8 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task<User?> User(string? id, StandardRequestOptions? options = null)
         {
+            if (id is null) throw new ArgumentNullException(nameof(id));
+
             var request = WebRequest.FromOptions($"/users/find/{id}", options ?? StandardRequestOptions.Default);
             var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
             if (resp.StatusCode == HttpStatusCode.NotFound) return null;
