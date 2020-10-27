@@ -37,6 +37,9 @@ namespace BeatSaverSharp.Tests
             var user = await Client.User("5cff0b7398cc5a672c84efe4");
             Assert.IsNotNull(user);
 
+            // TODO: Reimplement
+            Assert.Fail();
+
             //if (user is not null)
             //{
             //    int i = 0;
