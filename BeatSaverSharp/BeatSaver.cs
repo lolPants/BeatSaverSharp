@@ -145,5 +145,26 @@ namespace BeatSaverSharp
             return page!;
         }
         #endregion
+
+        #region User Method
+        /// <summary>
+        /// Fetch a User by ID
+        /// </summary>
+        /// <param name="id">Unique ID</param>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task<User?> User(string? id, StandardRequestOptions? options = null)
+        {
+            var request = WebRequest.FromOptions($"/users/find/{id}", options ?? StandardRequestOptions.Default);
+            var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
+            if (resp.StatusCode == HttpStatusCode.NotFound) return null;
+
+            User? u = resp.JSON<User>();
+            if (u is null) return null;
+
+            u.Client = this;
+            return u;
+        }
+        #endregion
     }
 }
