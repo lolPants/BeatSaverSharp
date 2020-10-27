@@ -31,7 +31,7 @@ namespace BeatSaverSharp
         #endregion
 
         #region Internal Methods
-        internal async Task<Beatmap?> FetchSingle(string url, BeatmapRequestOptions options)
+        internal async Task<Beatmap?> FetchSingle(string url, StandardRequestOptions options)
         {
             var request = WebRequest.FromOptions(url, options);
             var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
@@ -46,7 +46,7 @@ namespace BeatSaverSharp
             return b;
         }
 
-        internal async Task<Beatmap?> StatsFromHash(string hash, BeatmapRequestOptions options)
+        internal async Task<Beatmap?> StatsFromHash(string hash, StandardRequestOptions options)
         {
             return await FetchSingle($"/stats/hash/{hash}", options).ConfigureAwait(false);
         }
@@ -81,10 +81,10 @@ namespace BeatSaverSharp
         /// <param name="key">Hex Key</param>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Beatmap?> Key(string? key, BeatmapRequestOptions? options = null)
+        public async Task<Beatmap?> Key(string? key, StandardRequestOptions? options = null)
         {
             if (key is null) throw new ArgumentNullException(nameof(key));
-            return await FetchSingle($"/maps/detail/{key}", options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
+            return await FetchSingle($"/maps/detail/{key}", options ?? StandardRequestOptions.Default).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -93,10 +93,10 @@ namespace BeatSaverSharp
         /// <param name="hash">SHA1 Hash</param>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Beatmap?> Hash(string? hash, BeatmapRequestOptions? options = null)
+        public async Task<Beatmap?> Hash(string? hash, StandardRequestOptions? options = null)
         {
             if (hash is null) throw new ArgumentNullException(nameof(hash));
-            return await FetchSingle($"/maps/by-hash/{hash}", options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
+            return await FetchSingle($"/maps/by-hash/{hash}", options ?? StandardRequestOptions.Default).ConfigureAwait(false);
         }
         #endregion
 

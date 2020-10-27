@@ -161,7 +161,7 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task Populate(BeatmapRequestOptions? options = null)
+        public async Task Populate(StandardRequestOptions? options = null)
         {
             if (Partial == false) return;
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
@@ -197,10 +197,10 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task Refresh(BeatmapRequestOptions? options = null)
+        public async Task Refresh(StandardRequestOptions? options = null)
         {
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
-            var b = await Client.StatsFromHash(Hash, options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
+            var b = await Client.StatsFromHash(Hash, options ?? StandardRequestOptions.Default).ConfigureAwait(false);
 
             if (b is not null)
             {
@@ -215,10 +215,10 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task RefreshStats(BeatmapRequestOptions? options = null)
+        public async Task RefreshStats(StandardRequestOptions? options = null)
         {
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
-            var b = await Client.StatsFromHash(Hash, options ?? BeatmapRequestOptions.Default).ConfigureAwait(false);
+            var b = await Client.StatsFromHash(Hash, options ?? StandardRequestOptions.Default).ConfigureAwait(false);
 
             if (b is not null)
             {

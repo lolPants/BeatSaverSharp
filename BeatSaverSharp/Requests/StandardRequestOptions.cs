@@ -6,12 +6,12 @@ namespace BeatSaverSharp
     /// <summary>
     /// Options for a single beatmap request
     /// </summary>
-    public sealed class BeatmapRequestOptions : IRequest, IRequestOptions
+    public sealed class StandardRequestOptions : IRequest, IRequestOptions
     {
         /// <summary>
         /// Default Beatmap Request Options
         /// </summary>
-        public static BeatmapRequestOptions Default { get => new BeatmapRequestOptions(); }
+        public static StandardRequestOptions Default { get => new StandardRequestOptions(); }
 
         /// <summary>
         /// Cancellation token for this request
