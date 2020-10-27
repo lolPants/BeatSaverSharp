@@ -1,4 +1,7 @@
 using System;
+#if NETSTANDARD2_1
+using System.Collections.Generic;
+#endif
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -189,6 +192,64 @@ namespace BeatSaverSharp
             u.Client = this;
             return u;
         }
+        #endregion
+
+        #region Async Enumerables
+#if NETSTANDARD2_1
+        private async IAsyncEnumerable<Beatmap> PageIterator(Task<Page> firstTask, PagedRequestOptions? options)
+        {
+            Page? maps = null;
+
+            while (true)
+            {
+                if (maps is null) maps = await firstTask.ConfigureAwait(false);
+                else maps = await maps.Next();
+
+                foreach (var map in maps.Docs) yield return map;
+                if (maps.NextPage is null) yield break;
+            }
+        }
+
+        /// <summary>
+        /// Return an async iterator, ordered by upload date
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public IAsyncEnumerable<Beatmap> LatestIterator(PagedRequestOptions? options = null)
+        {
+            return PageIterator(Latest(options), options);
+        }
+
+        /// <summary>
+        /// Return an async iterator, ordered by heat score
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public IAsyncEnumerable<Beatmap> HotIterator(PagedRequestOptions? options = null)
+        {
+            return PageIterator(Hot(options), options);
+        }
+
+        /// <summary>
+        /// Return an async iterator, ordered by rating
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public IAsyncEnumerable<Beatmap> RatingIterator(PagedRequestOptions? options = null)
+        {
+            return PageIterator(Rating(options), options);
+        }
+
+        /// <summary>
+        /// Return an async iterator, ordered by download count
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public IAsyncEnumerable<Beatmap> DownloadsIterator(PagedRequestOptions? options = null)
+        {
+            return PageIterator(Downloads(options), options);
+        }
+#endif
         #endregion
     }
 }
