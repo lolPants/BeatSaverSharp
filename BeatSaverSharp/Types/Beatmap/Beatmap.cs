@@ -155,7 +155,7 @@ namespace BeatSaverSharp
         public bool Partial { get => ID is null || Name is null || CoverURL is null; }
         #endregion
 
-        #region Methods
+        #region Population Methods
         /// <summary>
         /// Populate a partial beatmap with data
         /// </summary>
@@ -224,6 +224,41 @@ namespace BeatSaverSharp
             {
                 Stats = b.Stats;
             }
+        }
+        #endregion
+
+        #region Assets Methods
+        /// <summary>
+        /// Fetch this Beatmap's zip as a <c>[]byte</c>
+        /// </summary>
+        /// <param name="direct"></param>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task<byte[]> ZipBytes(bool direct = false, StandardRequestOptions? options = null)
+        {
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
+
+            string url = direct ? DirectDownload : DownloadURL;
+            var request = WebRequest.FromOptions(url, options ?? StandardRequestOptions.Default);
+            var resp = await Client.HttpInstance.GetAsync(request).ConfigureAwait(false);
+
+            return resp.Bytes;
+        }
+
+        /// <summary>
+        /// Fetch this Beatmap's cover image as a <c>[]byte</c>
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task<byte[]> CoverImageBytes(StandardRequestOptions? options = null)
+        {
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
+
+            string url = $"{BeatSaver.BaseURL}{CoverURL}";
+            var request = WebRequest.FromOptions(url, options ?? StandardRequestOptions.Default);
+            var resp = await Client.HttpInstance.GetAsync(request).ConfigureAwait(false);
+
+            return resp.Bytes;
         }
         #endregion
 
