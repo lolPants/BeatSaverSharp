@@ -11,7 +11,7 @@ namespace BeatSaverSharp.Exceptions
         /// <summary>
         /// Rate Limit Info
         /// </summary>
-        public readonly RateLimitInfo RateLimit;
+        public RateLimitInfo RateLimit { get; }
 
         /// <summary>
         /// </summary>

@@ -10,7 +10,7 @@ namespace BeatSaverSharp.Exceptions
         /// <summary>
         /// REST Error
         /// </summary>
-        public readonly RestError RestError;
+        public RestError RestError { get; }
 
         /// <summary>
         /// </summary>

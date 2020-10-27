@@ -10,7 +10,7 @@ namespace BeatSaverSharp.Exceptions
         /// <summary>
         /// Invalid Hash
         /// </summary>
-        public string Hash { get; private set; }
+        public string Hash { get; }
 
         /// <summary>
         /// </summary>

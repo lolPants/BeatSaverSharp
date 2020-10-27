@@ -8,7 +8,7 @@ namespace BeatSaverSharp.Exceptions
         /// <summary>
         /// Invalid Key
         /// </summary>
-        public string Key { get; private set; }
+        public string Key { get; }
 
         /// <summary>
         /// </summary>

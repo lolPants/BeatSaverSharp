@@ -10,7 +10,7 @@ namespace BeatSaverSharp.Exceptions
         /// <summary>
         /// Invalid / Mismatched Steam ID
         /// </summary>
-        public readonly string SteamID;
+        public string SteamID { get; }
 
         /// <summary>
         /// </summary>
