@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace BeatSaverSharp
@@ -24,6 +25,21 @@ namespace BeatSaverSharp
         #region Properties
         [JsonIgnore]
         internal BeatSaver? Client { get; set; }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Fetch all Beatmaps uploaded by this user
+        /// </summary>
+        /// <param name="options">Request Options</param>
+        /// <returns></returns>
+        public async Task<Page> Beatmaps(PagedRequestOptions? options = null)
+        {
+            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
+
+            var page = await Client.FetchPaged($"/maps/uploader/{ID}", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
+            return page!;
+        }
         #endregion
 
         #region Equality
