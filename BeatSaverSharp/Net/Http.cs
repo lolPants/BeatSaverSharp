@@ -51,6 +51,7 @@ namespace BeatSaverSharp
             var msg = new HttpRequestMessage(HttpMethod.Get, request.Uri);
             foreach (var header in request.Headers)
             {
+                if (header.Key.ToLower() == "User-Agent".ToLower()) continue;
                 msg.Headers.Add(header.Key, header.Value);
             }
 
