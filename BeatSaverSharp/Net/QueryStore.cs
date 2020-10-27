@@ -20,8 +20,12 @@ namespace BeatSaverSharp
 
                     sb.Append(sb.Length == 0 ? '?' : '&');
                     sb.Append(entry.Key);
-                    sb.Append('=');
-                    sb.Append(value);
+
+                    if (string.IsNullOrEmpty(value) == false)
+                    {
+                        sb.Append('=');
+                        sb.Append(value);
+                    }
                 }
             }
 
