@@ -25,6 +25,34 @@ namespace BeatSaverSharp
             CoverURL = null!;
             Hash = null!;
         }
+
+        /// <summary>
+        /// Instantiate a partial Beatmap
+        /// </summary>
+        /// <param name="client">BeatSaver Client</param>
+        /// <param name="key">Hex Key</param>
+        /// <param name="hash">SHA1 Hash</param>
+        /// <param name="name">Beatmap Name</param>
+        public Beatmap(BeatSaver client, string? key = null, string? hash = null, string? name = null)
+        {
+            if (key is null && hash is null)
+            {
+                throw new ArgumentException("Key and Hash cannot both be null");
+            }
+
+            Client = client;
+            ID = null!;
+            Key = null!;
+            Name = null!;
+            DirectDownload = null!;
+            DownloadURL = null!;
+            CoverURL = null!;
+            Hash = null!;
+
+            if (key is not null) Key = key;
+            if (hash is not null) Hash = hash;
+            if (name is not null) Name = name;
+        }
         #endregion
 
         #region JSON Properties
@@ -124,13 +152,33 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public async Task Populate(BeatmapRequestOptions? options = null)
         {
-            if (Partial == false)
+            if (Partial == false) return;
+            if (Client is null) throw new NullReferenceException("Client should not be null!");
+            if (Key is null && Hash is null) throw new ArgumentException("Key and Hash cannot both be null");
+
+            var map = Hash is null
+                ? await Client.Hash(Hash, options).ConfigureAwait(false)
+                : await Client.Key(Key, options).ConfigureAwait(false);
+
+            if (map is null)
             {
-                return;
+                if (Hash is not null) throw new InvalidPartialHashException(Hash);
+                else if (Key is not null) throw new InvalidPartialKeyException(Key);
+                else throw new InvalidPartialException();
             }
 
-            // TODO: Implement
-            throw new NotImplementedException();
+            ID = map.ID;
+            Key = map.Key;
+            Name = map.Name;
+            Description = map.Description;
+            // Uploader = map.Uploader;
+            Uploaded = map.Uploaded;
+            Metadata = map.Metadata;
+            Stats = map.Stats;
+            DirectDownload = map.DirectDownload;
+            DownloadURL = map.DownloadURL;
+            CoverURL = map.CoverURL;
+            Hash = map.Hash;
         }
 
         /// <summary>
