@@ -1,5 +1,5 @@
 # 🎵 BeatSaverSharp &nbsp;[![Actions Status](https://github.com/lolPants/BeatSaverSharp/workflows/.NET%20Build/badge.svg)](https://github.com/lolPants/BeatSaverSharp/actions)
-_Official C# Library to interact with the BeatSaver API_
+> Official C# Library to interact with the BeatSaver API
 
 ## 💾 Download
 This package is available on [NuGet](https://www.nuget.org/packages/BeatSaverSharp/). It is built targeting .NET Standard 2.0, and should run in any supporting runtime.
