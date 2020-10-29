@@ -25,8 +25,12 @@ namespace BeatSaverSharp.Tests
         [TestMethod]
         public void ApplicationNameAndVersion()
         {
-            var options = new HttpOptions("TestApp", new Version(1, 0));
+            var name = "TestApp";
+            var version = new Version(1, 0);
+
+            var options = new HttpOptions(name, version);
             _ = new BeatSaver(options);
+            _ = new BeatSaver(name, version);
         }
 
         [TestMethod]
@@ -38,6 +42,12 @@ namespace BeatSaverSharp.Tests
                 var options = new HttpOptions("TestApp", version);
                 _ = new BeatSaver(options);
             });
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                string? version = null;
+                _ = new BeatSaver("TestApp", version);
+            });
         }
 
         [TestMethod]
@@ -47,6 +57,11 @@ namespace BeatSaverSharp.Tests
             {
                 var options = new HttpOptions(null, new Version(1, 0));
                 _ = new BeatSaver(options);
+            });
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                _ = new BeatSaver(null, new Version(1, 0));
             });
         }
 
@@ -58,6 +73,12 @@ namespace BeatSaverSharp.Tests
                 string? version = null;
                 var options = new HttpOptions(null, version);
                 _ = new BeatSaver(options);
+            });
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                string? version = null;
+                _ = new BeatSaver(null, version);
             });
         }
 
