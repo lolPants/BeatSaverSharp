@@ -18,6 +18,7 @@ namespace BeatSaverSharp
         /// </summary>
         public const string BaseURL = "https://beatsaver.com";
 
+        #region Constructors
         /// <summary>
         /// Construct a new BeatSaver API Client
         /// </summary>
@@ -27,6 +28,35 @@ namespace BeatSaverSharp
             if (options is null) throw new ArgumentNullException(nameof(options));
             HttpInstance = new Http(options);
         }
+
+        /// <summary>
+        /// Construct a new BeatSaver API Client
+        /// </summary>
+        /// <param name="name">Application Name</param>
+        /// <param name="version">Application Version</param>
+        public BeatSaver(string? name, Version? version)
+        {
+            if (name is null) throw new ArgumentNullException(nameof(name));
+            if (version is null) throw new ArgumentNullException(nameof(version));
+
+            var options = new HttpOptions(name, version);
+            HttpInstance = new Http(options);
+        }
+
+        /// <summary>
+        /// Construct a new BeatSaver API Client
+        /// </summary>
+        /// <param name="name">Application Name</param>
+        /// <param name="version">Application Version</param>
+        public BeatSaver(string? name, string? version)
+        {
+            if (name is null) throw new ArgumentNullException(nameof(name));
+            if (version is null) throw new ArgumentNullException(nameof(version));
+
+            var options = new HttpOptions(name, version);
+            HttpInstance = new Http(options);
+        }
+        #endregion
 
         #region Properties
         internal Http HttpInstance { get; }
