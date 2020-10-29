@@ -14,11 +14,8 @@ XML Documentation has been provided for this library. Most tasks will be done th
 using System;
 using BeatSaverSharp;
 
-HttpOptions options = new HttpOptions
-{
-    ApplicationName = "Test Client",
-    Version = new Version(1, 0, 0),
-};
+// Setup the client's HTTP User Agent 
+HttpOptions options = new HttpOptions(name: "Test Client", version: new Version(1, 0, 0));
 
 // Use this to interact with the API
 BeatSaver beatsaver = new BeatSaver(options);
