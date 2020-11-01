@@ -21,10 +21,7 @@ jobs:
       shell: bash
       run: |
         echo ::set-output name=version::`git rev-parse --short HEAD`
-        find "BeatSaverSharp/bin/Release/netstandard2.0" -type f ! -name "BeatSaverSharp.*" -delete
-        find "BeatSaverSharp/bin/Release/netstandard2.0" -type f -name "*.deps.json" -delete
-        find "BeatSaverSharp/bin/Release/netstandard2.1" -type f ! -name "BeatSaverSharp.*" -delete
-        find "BeatSaverSharp/bin/Release/netstandard2.1" -type f -name "*.deps.json" -delete
+        find "BeatSaverSharp/bin/Release" -type f -name "*.deps.json" -delete
         cp "LICENSE" "BeatSaverSharp/bin/Release/netstandard2.0/LICENSE.BeatSaverSharp.txt"
         cp "LICENSE" "BeatSaverSharp/bin/Release/netstandard2.1/LICENSE.BeatSaverSharp.txt"
     - name: Upload .NET Standard 2.0 DLLs
