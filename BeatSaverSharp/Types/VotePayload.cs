@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using BeatSaverSharp.Net;
 using Newtonsoft.Json;
 
 namespace BeatSaverSharp

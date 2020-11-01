@@ -6,10 +6,9 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using BeatSaverSharp.Exceptions;
-using BeatSaverSharp.Net;
 using Newtonsoft.Json;
 
-namespace BeatSaverSharp
+namespace BeatSaverSharp.Net
 {
     internal sealed class Http
     {
