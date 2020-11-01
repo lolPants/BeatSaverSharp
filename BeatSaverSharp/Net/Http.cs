@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using BeatSaverSharp.Exceptions;
+using BeatSaverSharp.Net;
 using Newtonsoft.Json;
 
 namespace BeatSaverSharp
@@ -46,7 +47,7 @@ namespace BeatSaverSharp
             Client.DefaultRequestHeaders.Add("User-Agent", userAgent);
         }
 
-        internal async Task<HttpResponse> GetAsync(WebRequest request)
+        internal async Task<HttpResponse> GetAsync(HttpRequest request)
         {
             var token = request.Token ?? CancellationToken.None;
             var msg = new HttpRequestMessage(HttpMethod.Get, request.Uri)

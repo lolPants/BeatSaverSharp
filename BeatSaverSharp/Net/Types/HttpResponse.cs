@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace BeatSaverSharp
+namespace BeatSaverSharp.Net
 {
     internal sealed class HttpResponse
     {

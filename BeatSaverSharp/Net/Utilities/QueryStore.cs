@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace BeatSaverSharp
+namespace BeatSaverSharp.Net
 {
     internal sealed class QueryStore : MultiKeyDictionary<string, string>
     {

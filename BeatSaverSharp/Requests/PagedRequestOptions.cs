@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using BeatSaverSharp.Interfaces;
+using BeatSaverSharp.Net;
 
 namespace BeatSaverSharp
 {
@@ -56,9 +57,9 @@ namespace BeatSaverSharp
         /// </summary>
         public IProgress<double>? Progress { get; set; } = null;
 
-        WebRequest IRequestOptions.CreateRequest(string url)
+        HttpRequest IRequestOptions.CreateRequest(string url)
         {
-            var wr = new WebRequest($"{url}/{Page}")
+            var wr = new HttpRequest($"{url}/{Page}")
             {
                 Token = Token,
                 Progress = Progress

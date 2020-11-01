@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using BeatSaverSharp.Exceptions;
+using BeatSaverSharp.Net;
 using Newtonsoft.Json;
 
 namespace BeatSaverSharp
@@ -241,7 +242,7 @@ namespace BeatSaverSharp
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
 
             string url = direct ? DirectDownload : DownloadURL;
-            var request = WebRequest.FromOptions(url, options ?? StandardRequestOptions.Default);
+            var request = HttpRequest.FromOptions(url, options ?? StandardRequestOptions.Default);
             var resp = await Client.HttpInstance.GetAsync(request).ConfigureAwait(false);
 
             return resp.Bytes;
@@ -257,7 +258,7 @@ namespace BeatSaverSharp
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
 
             string url = $"{BeatSaver.BaseURL}{CoverURL}";
-            var request = WebRequest.FromOptions(url, options ?? StandardRequestOptions.Default);
+            var request = HttpRequest.FromOptions(url, options ?? StandardRequestOptions.Default);
             var resp = await Client.HttpInstance.GetAsync(request).ConfigureAwait(false);
 
             return resp.Bytes;

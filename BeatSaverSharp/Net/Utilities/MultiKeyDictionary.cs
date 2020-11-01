@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace BeatSaverSharp
+namespace BeatSaverSharp.Net
 {
     internal class MultiKeyDictionary<TKey, TValue> : Dictionary<TKey, IEnumerable<TValue>> where TKey : notnull
     {

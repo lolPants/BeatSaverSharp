@@ -2,11 +2,11 @@ using System;
 using System.Threading;
 using BeatSaverSharp.Interfaces;
 
-namespace BeatSaverSharp
+namespace BeatSaverSharp.Net
 {
-    internal struct WebRequest : IRequest
+    internal struct HttpRequest : IRequest
     {
-        public static WebRequest FromOptions(string url, IRequestOptions options)
+        public static HttpRequest FromOptions(string url, IRequestOptions options)
         {
             return options.CreateRequest(url);
         }
@@ -29,7 +29,7 @@ namespace BeatSaverSharp
         public CancellationToken? Token { get; set; }
         public IProgress<double>? Progress { get; set; }
 
-        public WebRequest(string? uri)
+        public HttpRequest(string? uri)
         {
             _uri = uri?.TrimStart('/') ?? throw new ArgumentException(nameof(uri));
             Query = new();

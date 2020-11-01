@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BeatSaverSharp.Interfaces;
+using BeatSaverSharp.Net;
 
 namespace BeatSaverSharp
 {
@@ -67,7 +68,7 @@ namespace BeatSaverSharp
         #region Internal Methods
         internal async Task<Beatmap?> FetchSingle(string url, StandardRequestOptions options)
         {
-            var request = WebRequest.FromOptions(url, options);
+            var request = HttpRequest.FromOptions(url, options);
             var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
             if (resp.StatusCode == HttpStatusCode.NotFound) return null;
 
@@ -87,7 +88,7 @@ namespace BeatSaverSharp
 
         internal async Task<Page<T>?> FetchPaged<T>(string url, IPagedRequestOptions options) where T : class, IPagedRequestOptions, IRequest
         {
-            var request = WebRequest.FromOptions(url, options);
+            var request = HttpRequest.FromOptions(url, options);
             var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
             if (resp.StatusCode == HttpStatusCode.NotFound) return null;
 
@@ -215,7 +216,7 @@ namespace BeatSaverSharp
         {
             if (id is null) throw new ArgumentNullException(nameof(id));
 
-            var request = WebRequest.FromOptions($"/users/find/{id}", options ?? StandardRequestOptions.Default);
+            var request = HttpRequest.FromOptions($"/users/find/{id}", options ?? StandardRequestOptions.Default);
             var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
             if (resp.StatusCode == HttpStatusCode.NotFound) return null;
 
