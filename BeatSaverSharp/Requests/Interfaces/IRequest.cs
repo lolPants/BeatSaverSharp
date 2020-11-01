@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace BeatSaverSharp
+namespace BeatSaverSharp.Interfaces
 {
     /// <summary>
     /// </summary>

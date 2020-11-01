@@ -1,4 +1,4 @@
-namespace BeatSaverSharp
+namespace BeatSaverSharp.Interfaces
 {
     /// <summary>
     /// </summary>
