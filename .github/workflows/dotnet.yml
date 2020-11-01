@@ -28,13 +28,13 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/') == false
       uses: actions/upload-artifact@v2
       with:
-        name: BeatSaverSharp-netstandard2.0-${{ steps.prepare.outputs.version }}
+        name: BeatSaverSharp-${{ steps.prepare.outputs.version }}-netstandard2.0
         path: ./BeatSaverSharp/bin/Release/netstandard2.0/
     - name: Upload .NET Standard 2.1 DLLs
       if: startsWith(github.ref, 'refs/tags/') == false
       uses: actions/upload-artifact@v2
       with:
-        name: BeatSaverSharp-netstandard2.1-${{ steps.prepare.outputs.version }}
+        name: BeatSaverSharp-${{ steps.prepare.outputs.version }}-netstandard2.1
         path: ./BeatSaverSharp/bin/Release/netstandard2.1/
     - name: Publish to NuGet
       if: startsWith(github.ref, 'refs/tags/') == true
