@@ -40,7 +40,7 @@ namespace BeatSaverSharp
 
         /// <summary>
         /// Automap Filter
-        ///
+        /// <br />
         /// Defaults to Include
         /// </summary>
         public AutomapFilter Automaps { get; set; } = AutomapFilter.Include;

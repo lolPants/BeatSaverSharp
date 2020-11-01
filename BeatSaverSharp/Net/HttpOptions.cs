@@ -30,14 +30,14 @@ namespace BeatSaverSharp
 
         /// <summary>
         /// HTTP Timeout
-        ///
+        /// <br />
         /// Defaults to 30 seconds
         /// </summary>
         public TimeSpan Timeout { get; }
 
         /// <summary>
         /// HTTP Version to use
-        ///
+        /// <br />
         /// Defaults to HTTP/1.1 on .NET Standard 2.0 and HTTP/2 on .NET Standard 2.1
         /// </summary>
         public Version HttpVersion { get; }
