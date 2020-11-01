@@ -8,7 +8,7 @@ namespace BeatSaverSharp
     /// <summary>
     /// Page of Beatmaps
     /// </summary>
-    public sealed record Page
+    public sealed record Page<T> where T : class, IPagedRequestOptions, IRequest
     {
         #region JSON Properties
         /// <summary>
@@ -50,7 +50,7 @@ namespace BeatSaverSharp
         internal string? URI { get; set; }
 
         [JsonIgnore]
-        internal IPagedRequestOptions? Options { get; set; }
+        internal T? Options { get; set; }
         #endregion
 
         #region Methods
@@ -59,7 +59,7 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page> Previous(PagedRequestOptions? options = null)
+        public async Task<Page<T>> Previous(T? options = null)
         {
             if (PreviousPage is null) throw new NullReferenceException($"{nameof(PreviousPage)} is null!");
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
@@ -67,7 +67,7 @@ namespace BeatSaverSharp
             if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
             IPagedRequestOptions clone = Options.Clone(options, (uint)PreviousPage);
-            var page = await Client.FetchPaged(URI, clone).ConfigureAwait(false);
+            var page = await Client.FetchPaged<T>(URI, clone).ConfigureAwait(false);
 
             return page!;
         }
@@ -77,7 +77,7 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page> Next(PagedRequestOptions? options = null)
+        public async Task<Page<T>> Next(T? options = null)
         {
             if (NextPage is null) throw new NullReferenceException($"{nameof(NextPage)} is null!");
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
@@ -85,7 +85,7 @@ namespace BeatSaverSharp
             if (Options is null) throw new NullReferenceException($"{nameof(Options)} should not be null!");
 
             IPagedRequestOptions clone = Options.Clone(options, (uint)NextPage);
-            var page = await Client.FetchPaged(URI, clone).ConfigureAwait(false);
+            var page = await Client.FetchPaged<T>(URI, clone).ConfigureAwait(false);
 
             return page!;
         }

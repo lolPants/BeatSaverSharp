@@ -36,11 +36,11 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page> Beatmaps(PagedRequestOptions? options = null)
+        public async Task<Page<PagedRequestOptions>> Beatmaps(PagedRequestOptions? options = null)
         {
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
 
-            var page = await Client.FetchPaged($"/maps/uploader/{ID}", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
+            var page = await Client.FetchPaged<PagedRequestOptions>($"/maps/uploader/{ID}", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
             return page!;
         }
         #endregion

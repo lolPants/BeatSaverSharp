@@ -84,18 +84,18 @@ namespace BeatSaverSharp
             return await FetchSingle($"/stats/hash/{hash}", options).ConfigureAwait(false);
         }
 
-        internal async Task<Page?> FetchPaged(string url, IPagedRequestOptions options)
+        internal async Task<Page<T>?> FetchPaged<T>(string url, IPagedRequestOptions options) where T : class, IPagedRequestOptions, IRequest
         {
             var request = WebRequest.FromOptions(url, options);
             var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
             if (resp.StatusCode == HttpStatusCode.NotFound) return null;
 
-            Page? p = resp.JSON<Page>();
+            Page<T>? p = resp.JSON<Page<T>>();
             if (p is null) return null;
 
             p.Client = this;
             p.URI = url;
-            p.Options = options;
+            p.Options = (T)options;
 
             foreach (var b in p.Docs)
             {
@@ -139,9 +139,9 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page> Latest(PagedRequestOptions? options = null)
+        public async Task<Page<PagedRequestOptions>> Latest(PagedRequestOptions? options = null)
         {
-            var page = await FetchPaged($"/maps/latest", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
+            var page = await FetchPaged<PagedRequestOptions>($"/maps/latest", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
             return page!;
         }
 
@@ -150,9 +150,9 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page> Hot(PagedRequestOptions? options = null)
+        public async Task<Page<PagedRequestOptions>> Hot(PagedRequestOptions? options = null)
         {
-            var page = await FetchPaged($"/maps/hot", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
+            var page = await FetchPaged<PagedRequestOptions>($"/maps/hot", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
             return page!;
         }
 
@@ -161,9 +161,9 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page> Rating(PagedRequestOptions? options = null)
+        public async Task<Page<PagedRequestOptions>> Rating(PagedRequestOptions? options = null)
         {
-            var page = await FetchPaged($"/maps/rating", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
+            var page = await FetchPaged<PagedRequestOptions>($"/maps/rating", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
             return page!;
         }
 
@@ -172,9 +172,9 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page> Downloads(PagedRequestOptions? options = null)
+        public async Task<Page<PagedRequestOptions>> Downloads(PagedRequestOptions? options = null)
         {
-            var page = await FetchPaged($"/maps/downloads", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
+            var page = await FetchPaged<PagedRequestOptions>($"/maps/downloads", options ?? PagedRequestOptions.Default).ConfigureAwait(false);
             return page!;
         }
         #endregion
@@ -185,9 +185,9 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page> Search(SearchRequestOptions options)
+        public async Task<Page<SearchRequestOptions>> Search(SearchRequestOptions options)
         {
-            var page = await FetchPaged($"/search/text", options).ConfigureAwait(false);
+            var page = await FetchPaged<SearchRequestOptions>($"/search/text", options).ConfigureAwait(false);
             return page!;
         }
 
@@ -196,9 +196,9 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page> SearchAdvanced(SearchRequestOptions options)
+        public async Task<Page<SearchRequestOptions>> SearchAdvanced(SearchRequestOptions options)
         {
-            var page = await FetchPaged($"/search/advanced", options).ConfigureAwait(false);
+            var page = await FetchPaged<SearchRequestOptions>($"/search/advanced", options).ConfigureAwait(false);
             return page!;
         }
         #endregion
@@ -228,14 +228,14 @@ namespace BeatSaverSharp
 
         #region Async Enumerables
 #if NETSTANDARD2_1
-        internal async IAsyncEnumerable<Beatmap> PageIterator(Task<Page> firstTask, PagedRequestOptions? options)
+        internal async IAsyncEnumerable<Beatmap> PageIterator(Task<Page<PagedRequestOptions>> firstTask, PagedRequestOptions? options)
         {
-            Page? maps = null;
+            Page<PagedRequestOptions>? maps = null;
 
             while (true)
             {
                 if (maps is null) maps = await firstTask.ConfigureAwait(false);
-                else maps = await maps.Next();
+                else maps = await maps.Next(null);
 
                 foreach (var map in maps.Docs) yield return map;
                 if (maps.NextPage is null) yield break;
