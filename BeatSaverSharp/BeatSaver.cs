@@ -18,7 +18,7 @@ namespace BeatSaverSharp
         /// <summary>
         /// Base URL for BeatSaver Instance
         /// </summary>
-        public const string BaseURL = "https://beatsaver.com";
+        public static readonly string BaseURL = "https://beatsaver.com";
 
         #region Constructors
         /// <summary>
