@@ -49,7 +49,11 @@ namespace BeatSaverSharp
         internal async Task<HttpResponse> GetAsync(WebRequest request)
         {
             var token = request.Token ?? CancellationToken.None;
-            var msg = new HttpRequestMessage(HttpMethod.Get, request.Uri);
+            var msg = new HttpRequestMessage(HttpMethod.Get, request.Uri)
+            {
+                Version = Options.HttpVersion,
+            };
+
             foreach (var header in request.Headers)
             {
                 if (header.Key.ToLower() == "User-Agent".ToLower()) continue;
