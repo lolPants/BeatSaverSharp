@@ -28,7 +28,7 @@ namespace BeatSaverSharp.Net
 
             Client = new HttpClient(handler)
             {
-                BaseAddress = new Uri($"{BeatSaver.BaseURL}/api/"),
+                BaseAddress = new Uri($"{Options.BaseURL}/api/"),
                 Timeout = Options.Timeout,
             };
 
