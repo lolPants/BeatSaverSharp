@@ -10,10 +10,11 @@ using Newtonsoft.Json;
 
 namespace BeatSaverSharp.Net
 {
-    internal sealed class Http
+    internal sealed class Http : IDisposable
     {
         internal static readonly JsonSerializer Serializer = new();
 
+        internal bool Disposed { get; private set; }
         internal HttpOptions Options { get; }
         internal HttpClient Client { get; }
 
@@ -48,6 +49,11 @@ namespace BeatSaverSharp.Net
 
         internal async Task<HttpResponse> GetAsync(HttpRequest request)
         {
+            if (Disposed == true)
+            {
+                throw new ObjectDisposedException(nameof(Http));
+            }
+
             var token = request.Token ?? CancellationToken.None;
             var msg = new HttpRequestMessage(HttpMethod.Get, request.Uri)
             {
@@ -116,6 +122,15 @@ namespace BeatSaverSharp.Net
             byte[] bytes = ms.ToArray();
 
             return new HttpResponse(resp, bytes);
+        }
+
+        public void Dispose()
+        {
+            if (Disposed == false)
+            {
+                Disposed = true;
+                Client.Dispose();
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BeatSaverSharp
     /// <summary>
     /// BeatSaver API Methods
     /// </summary>
-    public sealed class BeatSaver
+    public sealed class BeatSaver : IDisposable
     {
         /// <summary>
         /// Base URL for BeatSaver Instance
@@ -60,14 +60,31 @@ namespace BeatSaverSharp
         }
         #endregion
 
+        #region Disposing
+        /// <summary>
+        /// Dispose of this BeatSaver instance
+        /// </summary>
+        public void Dispose()
+        {
+            if (Disposed == false)
+            {
+                Disposed = true;
+                HttpInstance.Dispose();
+            }
+        }
+        #endregion
+
         #region Properties
+        internal bool Disposed { get; private set; }
         internal Http HttpInstance { get; }
-        internal HttpClient HttpClient { get => HttpInstance.Client; }
+        internal HttpClient HttpClient { get => HttpInstance.Disposed == true ? throw new ObjectDisposedException(nameof(HttpClient)) : HttpInstance.Client; }
         #endregion
 
         #region Internal Methods
         internal async Task<Beatmap?> FetchSingle(string url, StandardRequestOptions options)
         {
+            if (Disposed == true) throw new ObjectDisposedException(nameof(BeatSaver));
+
             var request = HttpRequest.FromOptions(url, options);
             var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
             if (resp.StatusCode == HttpStatusCode.NotFound) return null;
@@ -88,6 +105,8 @@ namespace BeatSaverSharp
 
         internal async Task<Page<T>?> FetchPaged<T>(string url, IPagedRequestOptions options) where T : class, IPagedRequestOptions, IRequest
         {
+            if (Disposed == true) throw new ObjectDisposedException(nameof(BeatSaver));
+
             var request = HttpRequest.FromOptions(url, options);
             var resp = await HttpInstance.GetAsync(request).ConfigureAwait(false);
             if (resp.StatusCode == HttpStatusCode.NotFound) return null;
