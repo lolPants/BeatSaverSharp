@@ -40,8 +40,13 @@ namespace BeatSaverSharp
         /// <param name="key">Hex Key</param>
         /// <param name="hash">SHA1 Hash</param>
         /// <param name="name">Beatmap Name</param>
-        public Beatmap(BeatSaver client, string? key = null, string? hash = null, string? name = null)
+        public Beatmap(BeatSaver? client, string? key = null, string? hash = null, string? name = null)
         {
+            if (client is null)
+            {
+                throw new ArgumentNullException(nameof(client));
+            }
+
             if (key is null && hash is null)
             {
                 throw new ArgumentException($"{nameof(Key)} and {nameof(Hash)} cannot both be null");

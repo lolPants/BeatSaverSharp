@@ -29,11 +29,11 @@ namespace BeatSaverSharp
         /// <param name="remaining"></param>
         /// <param name="reset"></param>
         /// <param name="total"></param>
-        public RateLimitInfo(int? remaining, DateTime? reset, int? total)
+        public RateLimitInfo(int remaining, DateTime? reset, int total)
         {
-            Remaining = remaining ?? throw new ArgumentNullException(nameof(remaining));
+            Remaining = remaining;
             Reset = reset ?? throw new ArgumentNullException(nameof(reset));
-            Total = total ?? throw new ArgumentNullException(nameof(total));
+            Total = total;
         }
 
         internal static RateLimitInfo? FromHttp(HttpResponseMessage? resp)

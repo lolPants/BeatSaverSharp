@@ -206,9 +206,11 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page<SearchRequestOptions>> Search(SearchRequestOptions options)
+        public async Task<Page<SearchRequestOptions>> Search(SearchRequestOptions? options)
         {
+            if (options is null) throw new ArgumentNullException(nameof(options));
             var page = await FetchPaged<SearchRequestOptions>($"/search/text", options).ConfigureAwait(false);
+
             return page!;
         }
 
@@ -217,9 +219,11 @@ namespace BeatSaverSharp
         /// </summary>
         /// <param name="options">Request Options</param>
         /// <returns></returns>
-        public async Task<Page<SearchRequestOptions>> SearchAdvanced(SearchRequestOptions options)
+        public async Task<Page<SearchRequestOptions>> SearchAdvanced(SearchRequestOptions? options)
         {
+            if (options is null) throw new ArgumentNullException(nameof(options));
             var page = await FetchPaged<SearchRequestOptions>($"/search/advanced", options).ConfigureAwait(false);
+
             return page!;
         }
         #endregion

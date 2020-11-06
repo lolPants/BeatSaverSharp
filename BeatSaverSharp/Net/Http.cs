@@ -18,9 +18,9 @@ namespace BeatSaverSharp.Net
         internal HttpOptions Options { get; }
         internal HttpClient Client { get; }
 
-        internal Http(HttpOptions? options)
+        internal Http(HttpOptions options)
         {
-            Options = options ?? throw new ArgumentNullException(nameof(options));
+            Options = options;
 
             var handler = new HttpClientHandler
             {
