@@ -38,16 +38,5 @@ namespace BeatSaverSharp
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Version = version?.ToString() ?? throw new ArgumentNullException(nameof(version));
         }
-
-        /// <summary>
-        /// Deconstruct
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="version"></param>
-        public void Deconstruct(out string name, out string version)
-        {
-            name = Name;
-            version = Version;
-        }
     }
 }
