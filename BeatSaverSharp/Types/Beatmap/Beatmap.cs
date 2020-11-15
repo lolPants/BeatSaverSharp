@@ -1,7 +1,5 @@
 using System;
 using System.IO;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using BeatSaverSharp.Exceptions;
 using BeatSaverSharp.Net;
@@ -271,6 +269,7 @@ namespace BeatSaverSharp
         #endregion
 
         #region Voting
+        /*
         private async Task Vote(string steamID, byte[] authTicket, VotePayload.VoteDirection direction)
         {
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
@@ -327,6 +326,7 @@ namespace BeatSaverSharp
 
             await Vote(steamID, authTicket, VotePayload.VoteDirection.Down).ConfigureAwait(false);
         }
+        */
         #endregion
 
         #region Equality
