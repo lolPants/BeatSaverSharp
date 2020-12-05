@@ -98,14 +98,24 @@ namespace BeatSaverSharp.Net
             using MemoryStream ms = new MemoryStream();
             using Stream s = await resp.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
-            byte[] buffer = new byte[1 << 13];
+            var bufferSize = 1 << 13;
             int bytesRead;
+
+#if NETSTANDARD2_1
+            var buffer = new Memory<byte>(new byte[bufferSize]);
+#else
+            var buffer = new byte[bufferSize];
+#endif
 
             long? contentLength = resp.Content.Headers.ContentLength;
             long totalRead = 0;
             request.Progress?.Report(0);
 
-            while ((bytesRead = await s.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
+#if NETSTANDARD2_1
+            while ((bytesRead = await s.ReadAsync(buffer, token).ConfigureAwait(false)) > 0)
+#else
+            while ((bytesRead = await s.ReadAsync(buffer, 0, buffer.Length, token).ConfigureAwait(false)) > 0)
+#endif
             {
                 if (token.IsCancellationRequested) throw new TaskCanceledException();
                 if (contentLength is not null)
@@ -114,7 +124,12 @@ namespace BeatSaverSharp.Net
                     request.Progress?.Report(prog);
                 }
 
-                await ms.WriteAsync(buffer, 0, bytesRead).ConfigureAwait(false);
+#if NETSTANDARD2_1
+                await ms.WriteAsync(buffer, token).ConfigureAwait(false);
+#else
+                await ms.WriteAsync(buffer, 0, bytesRead, token).ConfigureAwait(false);
+#endif
+
                 totalRead += bytesRead;
             }
 
