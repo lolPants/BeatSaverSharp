@@ -31,7 +31,7 @@ namespace BeatSaverSharp.Net
 
         public HttpRequest(string? uri)
         {
-            _uri = uri?.TrimStart('/') ?? throw new ArgumentException(nameof(uri));
+            _uri = uri?.TrimStart('/') ?? throw new ArgumentNullException(nameof(uri));
             Query = new();
             Headers = new();
 
