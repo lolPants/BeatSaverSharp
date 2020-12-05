@@ -253,7 +253,7 @@ namespace BeatSaverSharp
 
         #region Async Enumerables
 #if NETSTANDARD2_1
-        internal async IAsyncEnumerable<Beatmap> PageIterator(Task<Page<PagedRequestOptions>> firstTask, PagedRequestOptions? options)
+        internal static async IAsyncEnumerable<Beatmap> PageIterator(Task<Page<PagedRequestOptions>> firstTask)
         {
             Page<PagedRequestOptions>? maps = null;
 
@@ -274,7 +274,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public IAsyncEnumerable<Beatmap> LatestIterator(PagedRequestOptions? options = null)
         {
-            return PageIterator(Latest(options), options);
+            return PageIterator(Latest(options));
         }
 
         /// <summary>
@@ -284,7 +284,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public IAsyncEnumerable<Beatmap> HotIterator(PagedRequestOptions? options = null)
         {
-            return PageIterator(Hot(options), options);
+            return PageIterator(Hot(options));
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public IAsyncEnumerable<Beatmap> RatingIterator(PagedRequestOptions? options = null)
         {
-            return PageIterator(Rating(options), options);
+            return PageIterator(Rating(options));
         }
 
         /// <summary>
@@ -304,7 +304,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public IAsyncEnumerable<Beatmap> DownloadsIterator(PagedRequestOptions? options = null)
         {
-            return PageIterator(Downloads(options), options);
+            return PageIterator(Downloads(options));
         }
 #endif
         #endregion

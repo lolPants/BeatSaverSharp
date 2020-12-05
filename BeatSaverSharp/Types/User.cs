@@ -54,8 +54,7 @@ namespace BeatSaverSharp
         /// <returns></returns>
         public IAsyncEnumerable<Beatmap> BeatmapsIterator(PagedRequestOptions? options = null)
         {
-            if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
-            return Client.PageIterator(Beatmaps(options), options);
+            return BeatSaver.PageIterator(Beatmaps(options));
         }
 #endif
         #endregion
