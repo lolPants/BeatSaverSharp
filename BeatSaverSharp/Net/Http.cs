@@ -125,7 +125,7 @@ namespace BeatSaverSharp.Net
                 }
 
 #if NETSTANDARD2_1
-                await ms.WriteAsync(buffer, token).ConfigureAwait(false);
+                await ms.WriteAsync(buffer.Slice(0, bytesRead), token).ConfigureAwait(false);
 #else
                 await ms.WriteAsync(buffer, 0, bytesRead, token).ConfigureAwait(false);
 #endif
