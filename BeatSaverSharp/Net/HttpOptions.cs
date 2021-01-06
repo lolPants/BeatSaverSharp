@@ -75,15 +75,7 @@ namespace BeatSaverSharp
             var appVersion = version ?? throw new ArgumentNullException(nameof(version));
             HttpAgent agent = new(appName, appVersion);
 
-            List<HttpAgent> agentsList = new();
-            agentsList.Add(agent);
-            if (agents is not null)
-            {
-                agentsList.AddRange(agents);
-            }
-
-            agentsList.Add(HttpAgent.Self);
-            Agents = agentsList.ToArray();
+            Agents = ConstructAgents(agent, agents);
         }
 
         /// <summary>
@@ -115,15 +107,25 @@ namespace BeatSaverSharp
             var appVersion = version ?? throw new ArgumentNullException(nameof(version));
             HttpAgent agent = new(appName, appVersion);
 
-            List<HttpAgent> agentsList = new();
-            agentsList.Add(agent);
+            Agents = ConstructAgents(agent, agents);
+        }
+
+        private static HttpAgent[] ConstructAgents(HttpAgent appAgent, List<HttpAgent>? agents)
+        {
+            List<HttpAgent> agentsList = new() { appAgent };
             if (agents is not null)
             {
-                agentsList.AddRange(agents);
+                foreach (var agent in agents)
+                {
+                    if (agent.Name is null) throw new NullReferenceException($"{nameof(agent)}.{nameof(agent.Name)} must not be null!");
+                    if (agent.Version is null) throw new NullReferenceException($"{nameof(agent)}.{nameof(agent.Version)} must not be null!");
+
+                    agents.Add(agent);
+                }
             }
 
             agentsList.Add(HttpAgent.Self);
-            Agents = agentsList.ToArray();
+            return agentsList.ToArray();
         }
 
         /// <summary>
