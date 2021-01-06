@@ -33,18 +33,7 @@ namespace BeatSaverSharp.Net
                 Timeout = Options.Timeout,
             };
 
-            string libVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            string userAgent = $"{Options.ApplicationName}/{Options.Version} BeatSaverSharp/{libVersion}";
-
-            foreach (var agent in Options.Agents)
-            {
-                if (agent.Name is null) throw new NullReferenceException($"{nameof(agent)}.{nameof(agent.Name)} must not be null!");
-                if (agent.Version is null) throw new NullReferenceException($"{nameof(agent)}.{nameof(agent.Version)} must not be null!");
-
-                userAgent += $" {agent.Name}/{agent.Version}";
-            }
-
-            Client.DefaultRequestHeaders.Add("User-Agent", userAgent);
+            Client.DefaultRequestHeaders.Add("User-Agent", options.UserAgent);
         }
 
         internal async Task<HttpResponse> GetAsync(HttpRequest request)

@@ -10,23 +10,12 @@ namespace BeatSaverSharp
     {
         private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(30);
         private static readonly bool _defaultHandleRateLimits = false;
-        private static readonly List<HttpAgent> _defaultAgents = new();
 
 #if NETSTANDARD2_1
         private static readonly Version _defaultHttpVersion = System.Net.HttpVersion.Version20;
 #else
         private static readonly Version _defaultHttpVersion = System.Net.HttpVersion.Version11;
 #endif
-
-        /// <summary>
-        /// Application Name
-        /// </summary>
-        public string ApplicationName { get; }
-
-        /// <summary>
-        /// Application Version
-        /// </summary>
-        public string Version { get; }
 
         /// <summary>
         /// HTTP Timeout
@@ -77,15 +66,24 @@ namespace BeatSaverSharp
             List<HttpAgent>? agents = null
         )
         {
-            ApplicationName = name ?? throw new ArgumentNullException(nameof(name));
-            Version = version?.ToString() ?? throw new ArgumentNullException(nameof(version));
             Timeout = timeout ?? _defaultTimeout;
             BaseURL = baseURL ?? BeatSaver.BaseURL;
             HttpVersion = httpVersion ?? _defaultHttpVersion;
             HandleRateLimits = handleRateLimits ?? _defaultHandleRateLimits;
 
-            agents ??= _defaultAgents;
-            Agents = agents.ToArray();
+            var appName = name ?? throw new ArgumentNullException(nameof(name));
+            var appVersion = version ?? throw new ArgumentNullException(nameof(version));
+            HttpAgent agent = new(appName, appVersion);
+
+            List<HttpAgent> agentsList = new();
+            agentsList.Add(agent);
+            if (agents is not null)
+            {
+                agentsList.AddRange(agents);
+            }
+
+            agentsList.Add(HttpAgent.Self);
+            Agents = agentsList.ToArray();
         }
 
         /// <summary>
@@ -108,15 +106,32 @@ namespace BeatSaverSharp
             List<HttpAgent>? agents = null
         )
         {
-            ApplicationName = name ?? throw new ArgumentNullException(nameof(name));
-            Version = version ?? throw new ArgumentNullException(nameof(version));
             Timeout = timeout ?? _defaultTimeout;
             BaseURL = baseURL ?? BeatSaver.BaseURL;
             HttpVersion = httpVersion ?? _defaultHttpVersion;
             HandleRateLimits = handleRateLimits ?? _defaultHandleRateLimits;
 
-            agents ??= _defaultAgents;
-            Agents = agents.ToArray();
+            var appName = name ?? throw new ArgumentNullException(nameof(name));
+            var appVersion = version ?? throw new ArgumentNullException(nameof(version));
+            HttpAgent agent = new(appName, appVersion);
+
+            List<HttpAgent> agentsList = new();
+            agentsList.Add(agent);
+            if (agents is not null)
+            {
+                agentsList.AddRange(agents);
+            }
+
+            agentsList.Add(HttpAgent.Self);
+            Agents = agentsList.ToArray();
+        }
+
+        /// <summary>
+        /// Combined User Agent String
+        /// </summary>
+        public string UserAgent
+        {
+            get => string.Join(" ", Agents);
         }
     }
 }
