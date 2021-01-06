@@ -23,7 +23,7 @@ namespace BeatSaverSharp
 
         /// <summary>
         /// Optional User Agent Link
-        ///
+        /// <br />
         /// Often used for Source Code repos
         /// </summary>
         public string? Link { get; }
