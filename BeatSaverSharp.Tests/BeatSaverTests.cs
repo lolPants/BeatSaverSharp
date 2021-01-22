@@ -83,6 +83,15 @@ namespace BeatSaverSharp.Tests
         }
 
         [TestMethod]
+        public void MultipleAgents()
+        {
+            HttpAgent agent = new HttpAgent("Agent", "0.1.0");
+
+            var options = new HttpOptions("TestApp", new Version(1, 0), agents: new List<HttpAgent> { agent });
+            _ = new BeatSaver(options);
+        }
+
+        [TestMethod]
         public void BlankUserAgent()
         {
             Assert.ThrowsException<NullReferenceException>(() =>
