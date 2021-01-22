@@ -301,5 +301,35 @@ namespace BeatSaverSharp.Tests
         }
         #endregion
         #endregion
+
+        #region Download Tests
+        [TestMethod]
+        public async Task DownloadZip()
+        {
+            const string targetHash = "34787693F8853547E4C84E33EC8266C6E6FB9C3C725F9FBB27C4664985391C9B";
+
+            var map = await Client.Key("4c19");
+            if (map is null) throw new NullReferenceException();
+
+            var data = await map.ZipBytes();
+            string actualHash = await CalculateSHA256(data);
+
+            Assert.AreEqual(targetHash, actualHash);
+        }
+
+        [TestMethod]
+        public async Task DownloadCover()
+        {
+            const string targetHash = "D3D18CC16AC8A55B16F51E393D69697C72A50539508A087AA127AD05642D2C7F";
+
+            var map = await Client.Key("4c19");
+            if (map is null) throw new NullReferenceException();
+
+            var data = await map.CoverImageBytes();
+            string actualHash = await CalculateSHA256(data);
+            
+            Assert.AreEqual(targetHash, actualHash);
+        }
+        #endregion
     }
 }

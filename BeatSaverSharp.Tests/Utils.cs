@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BeatSaverSharp.Tests
@@ -36,6 +39,16 @@ namespace BeatSaverSharp.Tests
                 Assert.AreEqual(map.Uploader.ID, "5cff0b7398cc5a672c84efe4");
                 Assert.AreEqual(map.Uploader.Username, "lolpants");
             }
+        }
+
+        internal static async Task<string> CalculateSHA256(byte[] data)
+        {
+            var ms = new MemoryStream(data);
+
+            using var sha256 = SHA256.Create();
+            var hashBytes = await sha256.ComputeHashAsync(ms);
+
+            return BitConverter.ToString(hashBytes).Replace("-", "").ToUpper();
         }
     }
 }
