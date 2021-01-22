@@ -11,7 +11,7 @@
     <Authors>lolPants</Authors>
     <Company>Jack Baron DEV</Company>
     <Description>Official C# Library to interact with the BeatSaver API</Description>
-    <Copyright>Copyright © Jack Baron DEV 2020</Copyright>
+    <Copyright>Copyright © Jack Baron DEV 2019-2021</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/lolPants/BeatSaverSharp.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/lolPants/BeatSaverSharp</PackageProjectUrl>
