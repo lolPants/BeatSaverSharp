@@ -101,6 +101,7 @@ namespace BeatSaverSharp.Net
             {
                 if (_responseCache.TryGetValue(etagMatch, out var cached))
                 {
+                    request.Progress?.Report(1);
                     return cached;
                 }
             }
