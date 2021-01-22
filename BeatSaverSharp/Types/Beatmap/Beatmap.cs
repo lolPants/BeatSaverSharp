@@ -263,7 +263,9 @@ namespace BeatSaverSharp
         {
             if (Client is null) throw new NullReferenceException($"{nameof(Client)} should not be null!");
 
-            string url = $"{BeatSaver.BaseURL}{CoverURL}";
+            string baseURL = Client.HttpInstance.Options.BaseURL.TrimEnd('/');
+            string url = baseURL + CoverURL;
+
             var request = HttpRequest.FromOptions(url, options ?? StandardRequestOptions.Default);
             var resp = await Client.HttpInstance.GetAsync(request).ConfigureAwait(false);
 
