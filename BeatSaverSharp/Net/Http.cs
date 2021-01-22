@@ -19,8 +19,8 @@ namespace BeatSaverSharp.Net
         internal HttpOptions Options { get; }
         internal HttpClient Client { get; }
 
-        private readonly ConcurrentDictionary<string, string> _etagCache = new();
-        private readonly ConcurrentDictionary<string, HttpResponse> _responseCache = new();
+        private static readonly ConcurrentDictionary<string, string> _etagCache = new();
+        private static readonly ConcurrentDictionary<string, HttpResponse> _responseCache = new();
 
         internal Http(HttpOptions options)
         {
