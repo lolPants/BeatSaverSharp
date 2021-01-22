@@ -97,6 +97,11 @@ namespace BeatSaverSharp.Net
                 return await GetAsync(request).ConfigureAwait(false);
             }
 
+            if (token.IsCancellationRequested)
+            {
+                throw new TaskCanceledException();
+            }
+
             if (Options.DisableCaching == false && etagMatch is not null && resp.StatusCode == HttpStatusCode.NotModified)
             {
                 if (_responseCache.TryGetValue(etagMatch, out var cached))
@@ -104,11 +109,6 @@ namespace BeatSaverSharp.Net
                     request.Progress?.Report(1);
                     return cached;
                 }
-            }
-
-            if (token.IsCancellationRequested)
-            {
-                throw new TaskCanceledException();
             }
 
             using MemoryStream ms = new MemoryStream();
