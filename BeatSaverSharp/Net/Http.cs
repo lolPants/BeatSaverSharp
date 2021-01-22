@@ -157,6 +157,11 @@ namespace BeatSaverSharp.Net
                 var etag = values.FirstOrDefault();
                 if (etag is not null)
                 {
+                    if (_etagCache.TryGetValue(request.Uri, out string existing) && existing != etag)
+                    {
+                        _responseCache.TryRemove(existing, out var _);
+                    }
+
                     _etagCache[request.Uri] = etag;
                     _responseCache[etag] = response;
                 }
