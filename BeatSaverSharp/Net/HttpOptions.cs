@@ -133,7 +133,7 @@ namespace BeatSaverSharp
                     if (agent.Name is null) throw new NullReferenceException($"{nameof(agent)}.{nameof(agent.Name)} must not be null!");
                     if (agent.Version is null) throw new NullReferenceException($"{nameof(agent)}.{nameof(agent.Version)} must not be null!");
 
-                    agents.Add(agent);
+                    agentsList.Add(agent);
                 }
             }
 
