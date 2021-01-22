@@ -47,6 +47,13 @@ namespace BeatSaverSharp
         public HttpAgent[] Agents { get; }
 
         /// <summary>
+        /// Disable internal HTTP caching
+        /// <br />
+        /// Should probably be used in low-memory environments or with high request volumes
+        /// </summary>
+        public bool DisableCaching { get; }
+
+        /// <summary>
         /// Construct a new HTTP Options Struct
         /// </summary>
         /// <param name="name">Application Name</param>
@@ -56,6 +63,7 @@ namespace BeatSaverSharp
         /// <param name="httpVersion">HTTP Version</param>
         /// <param name="handleRateLimits">Handle Rate Limits Automatically</param>
         /// <param name="agents">Additional User Agents</param>
+        /// <param name="disableCaching">Disable HTTP Caching</param>
         public HttpOptions(
             string? name,
             Version? version,
@@ -63,13 +71,15 @@ namespace BeatSaverSharp
             string? baseURL = null,
             Version? httpVersion = null,
             bool? handleRateLimits = null,
-            List<HttpAgent>? agents = null
+            List<HttpAgent>? agents = null,
+            bool disableCaching = false
         )
         {
             Timeout = timeout ?? _defaultTimeout;
             BaseURL = baseURL ?? BeatSaver.BaseURL;
             HttpVersion = httpVersion ?? _defaultHttpVersion;
             HandleRateLimits = handleRateLimits ?? _defaultHandleRateLimits;
+            DisableCaching = disableCaching;
 
             var appName = name ?? throw new ArgumentNullException(nameof(name));
             var appVersion = version ?? throw new ArgumentNullException(nameof(version));
@@ -88,6 +98,7 @@ namespace BeatSaverSharp
         /// <param name="httpVersion">HTTP Version</param>
         /// <param name="handleRateLimits">Handle Rate Limits Automatically</param>
         /// <param name="agents">Additional User Agents</param>
+        /// <param name="disableCaching">Disable HTTP Caching</param>
         public HttpOptions(
             string? name,
             string? version,
@@ -95,13 +106,15 @@ namespace BeatSaverSharp
             string? baseURL = null,
             Version? httpVersion = null,
             bool? handleRateLimits = null,
-            List<HttpAgent>? agents = null
+            List<HttpAgent>? agents = null,
+            bool disableCaching = false
         )
         {
             Timeout = timeout ?? _defaultTimeout;
             BaseURL = baseURL ?? BeatSaver.BaseURL;
             HttpVersion = httpVersion ?? _defaultHttpVersion;
             HandleRateLimits = handleRateLimits ?? _defaultHandleRateLimits;
+            DisableCaching = disableCaching;
 
             var appName = name ?? throw new ArgumentNullException(nameof(name));
             var appVersion = version ?? throw new ArgumentNullException(nameof(version));

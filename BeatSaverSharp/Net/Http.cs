@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -16,6 +18,9 @@ namespace BeatSaverSharp.Net
         internal bool Disposed { get; private set; }
         internal HttpOptions Options { get; }
         internal HttpClient Client { get; }
+
+        private readonly ConcurrentDictionary<string, string> _etagCache = new();
+        private readonly ConcurrentDictionary<string, HttpResponse> _responseCache = new();
 
         internal Http(HttpOptions options)
         {
@@ -51,7 +56,21 @@ namespace BeatSaverSharp.Net
             foreach (var header in request.Headers)
             {
                 if (header.Key.ToLower() == "User-Agent".ToLower()) continue;
+                if (header.Key.ToLower() == "If-None-Match".ToLower()) continue;
+
                 msg.Headers.Add(header.Key, header.Value);
+            }
+
+            string? etagMatch = null;
+            if (Options.DisableCaching == false)
+            {
+                if (_etagCache.TryGetValue(request.Uri, out etagMatch))
+                {
+                    if (_responseCache.ContainsKey(etagMatch))
+                    {
+                        msg.Headers.Add("If-None-Match", etagMatch);
+                    }
+                }
             }
 
             var resp = await Client
@@ -76,6 +95,14 @@ namespace BeatSaverSharp.Net
                 }
 
                 return await GetAsync(request).ConfigureAwait(false);
+            }
+
+            if (Options.DisableCaching == false && etagMatch is not null && resp.StatusCode == HttpStatusCode.NotModified)
+            {
+                if (_responseCache.TryGetValue(etagMatch, out var cached))
+                {
+                    return cached;
+                }
             }
 
             if (token.IsCancellationRequested)
@@ -124,7 +151,18 @@ namespace BeatSaverSharp.Net
             request.Progress?.Report(1);
             byte[] bytes = ms.ToArray();
 
-            return new HttpResponse(resp, bytes);
+            var response = new HttpResponse(resp, bytes);
+            if (Options.DisableCaching == false && resp.Headers.TryGetValues("ETag", out System.Collections.Generic.IEnumerable<string> values))
+            {
+                var etag = values.FirstOrDefault();
+                if (etag is not null)
+                {
+                    _etagCache[request.Uri] = etag;
+                    _responseCache[etag] = response;
+                }
+            }
+
+            return response;
         }
 
         public void Dispose()
